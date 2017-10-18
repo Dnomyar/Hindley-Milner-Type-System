@@ -14,11 +14,14 @@ Contenu :
 
 Next steps : bien maitriser l’algo et pouvoir dérouler des exemples sur le papier
 
-
-
 Ce qu’on a compris :
 - faire un REPL qui permet de vérifier la concordance des types 
 - de retourner le type de l’expression ou une erreur le cas échéant.
 - a partir d'une expression quelconque, utiliser les règles de déduction syntaxique pour raffiner le types de cette expression
 - dans certains cas, quand les types sont plus complexes, on doit avoir recours à l'unification (une fois que nous aurons bien compris l'algorithme qui permet de trouver le type d'une expression, nous nous concentrerons sur l'unification)
 
+### LOG Semaine nº42
+
+Nous avons essayer de comprendre davantage l'algorithme en l'executant sur des petits exemples à la main en prenant en compte des case passsant et non passant.
+
+Nous avons également relu le début du chapitre afin de mieux le comprendre après avoir pratiquer sur des exemples.
