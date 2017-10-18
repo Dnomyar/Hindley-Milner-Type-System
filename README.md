@@ -22,6 +22,16 @@ Ce qu’on a compris :
 
 ### LOG Semaine nº42
 
-Nous avons essayer de comprendre davantage l'algorithme en l'executant sur des petits exemples à la main en prenant en compte des case passsant et non passant.
+Travail effectué : 
 
-Nous avons également relu le début du chapitre afin de mieux le comprendre après avoir pratiquer sur des exemples.
+- Dérouler de l'algorithme sur des exemples passants et non passants
+- Lecture et analyse du code pour améliorer la compréhension de l'algorithme (au niveau des FTV par exemple)
+
+Proposition travail supplémentaire :
+
+- Ajout d'éléments dans le langage (opérations algébrique de base, condition IF, …)
+- Système de liste
+
+Travail à venir : 
+
+- Continuer de dérouler l'algorithme (avec une analyse plus poussée du code) sur des exemples plus complets / complexes ou "limites" 
