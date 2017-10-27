@@ -25,7 +25,12 @@ public class Application implements Expression {
         logger.debug("Current exp " + this.toString());
 
         Type bodyType = this.body.infer(env);
+
+        logger.debug("Type for body `" + this.body + "` is " + bodyType);
+
         Type argumentType = this.argument.infer(env);
+
+        logger.debug("Type for argument `" + this.argument + "` is " + argumentType);
 
         TypeVariable returnType = FreshVariableProvider.getInstance().provideFresh();
 

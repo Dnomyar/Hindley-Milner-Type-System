@@ -28,11 +28,17 @@ public class Let implements Expression {
 
         Type definitionType = this.definition.infer(env);
 
+        logger.debug("Type for definition `" + this.definition + "` is " + definitionType);
+
+
         Type generalizedType = new Generalizer().generalize(env, definitionType);
 
         env.extend(this.identifier, generalizedType);
 
         Type bodyType = this.body.infer(env);
+
+        logger.debug("Type for bodyType `" + this.body + "` is " + bodyType);
+
 
         env.remove(this.identifier);
 

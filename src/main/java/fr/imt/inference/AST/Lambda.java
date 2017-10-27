@@ -29,6 +29,8 @@ public class Lambda implements Expression {
 
         Type bodyType = this.body.infer(env);
 
+        logger.debug("Type for body `" + this.body + "` is " + bodyType);
+
         env.remove(this.identifier);
 
         return new ArrowType(resultType, bodyType);
