@@ -5,6 +5,18 @@ import java.util.List;
 
 public class Logger {
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+    public static final String ANSI_BLACK_BOLD_BRIGHT = "\033[1;90m";
+
     private String className;
 
     public Logger(Class clazz) {
@@ -29,11 +41,15 @@ public class Logger {
         return stringBuilder.toString();
     }
 
-    private void printMessage(String level, String message){
-        System.out.println(String.format("%5s [%s] %s", level, this.className, message));
+    private void printMessage(String level, String color, String message){
+        System.out.println(String.format("%s%5s%s %s[%s]%s %s", color, level, ANSI_RESET, ANSI_BLACK_BOLD_BRIGHT, this.className, ANSI_RESET, message));
     }
 
     public void debug(String msg){
-        this.printMessage("DEBUG", msg);
+        this.printMessage("DEBUG", ANSI_GREEN, msg);
+    }
+
+    public void trace(String msg){
+        this.printMessage("TRACE", ANSI_BLUE, msg);
     }
 }
