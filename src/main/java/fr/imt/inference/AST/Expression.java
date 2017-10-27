@@ -1,9 +1,13 @@
 package fr.imt.inference.AST;
 
+import fr.imt.inference.Environment;
 import fr.imt.inference.ExpressionPrinter;
+import fr.imt.inference.type.Type;
 
 public interface Expression {
-    public default String accept(ExpressionPrinter printer) {
+    default String accept(ExpressionPrinter printer) {
         return printer.visit(this);
     }
+
+    Type infer(Environment env);
 }

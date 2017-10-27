@@ -1,12 +1,18 @@
 package fr.imt.inference;
 
 import fr.imt.inference.AST.*;
-import static fr.imt.inference.AST.ExpressionFactory.*;
+import fr.imt.inference.logger.Logger;
+
+import static fr.imt.inference.AST.factory.ExpressionFactory.*;
 
 /**
  * @author Clément, Damien, Anaël
  */
 public class Main {
+
+    private static Logger logger = new Logger(Main.class);
+
+
     public static void main(String[] args) {
         Variable F = Var("f");
         Variable a = Var("a");
@@ -29,8 +35,10 @@ public class Main {
         Expression identityX = Lamb(x, x);
         Expression expression = Let(F, identityX, application);
 
-        ExpressionPrinter printer = new ExpressionPrinter();
-        System.out.println("ON IMPRIME MAGGLE");
-        System.out.println(expression.accept(printer));
+
+        logger.debug(expression.toString());
+        logger.debug("");
+
+        System.out.println(expression.infer(new Environment()));
     }
 }

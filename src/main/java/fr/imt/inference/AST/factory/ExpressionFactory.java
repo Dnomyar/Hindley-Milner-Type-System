@@ -1,4 +1,6 @@
-package fr.imt.inference.AST;
+package fr.imt.inference.AST.factory;
+
+import fr.imt.inference.AST.*;
 
 public class ExpressionFactory {
     public static Lambda Lamb(Variable variable, Expression expression) {

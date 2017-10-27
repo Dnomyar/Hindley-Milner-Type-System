@@ -1,5 +1,7 @@
 package fr.imt.inference;
 
+import fr.imt.inference.type.TypeVariable;
+
 public class FreshVariableProvider {
     private static FreshVariableProvider ourInstance = new FreshVariableProvider();
 
