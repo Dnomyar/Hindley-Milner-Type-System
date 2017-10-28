@@ -1,7 +1,5 @@
 package fr.imt.inference.type;
 
-import fr.imt.inference.type.Type;
-
 public class TypeVariable implements Type {
     private String identifier;
 

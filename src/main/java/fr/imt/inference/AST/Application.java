@@ -4,20 +4,28 @@ import fr.imt.inference.ConstraintRepository;
 import fr.imt.inference.Environment;
 import fr.imt.inference.FreshVariableProvider;
 import fr.imt.inference.logger.Logger;
-import fr.imt.inference.type.TypeVariable;
 import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
 
 public class Application implements Expression {
 
-    private Logger logger = new Logger(getClass());
-
     public final Expression body;
     public final Expression argument;
+    private final Logger logger = new Logger(getClass());
+    private ConstraintRepository constraintRepository;
+    private FreshVariableProvider freshVariableProvider;
 
-    public Application(Expression body, Expression argument) {
+    public Application(
+            Expression body,
+            Expression argument,
+            ConstraintRepository constraintRepository,
+            FreshVariableProvider freshVariableProvider
+    ) {
         this.body = body;
         this.argument = argument;
+        this.constraintRepository = constraintRepository;
+        this.freshVariableProvider = freshVariableProvider;
     }
 
     @Override
@@ -32,9 +40,9 @@ public class Application implements Expression {
 
         logger.debug("Type for argument `" + this.argument + "` is " + argumentType);
 
-        TypeVariable returnType = FreshVariableProvider.getInstance().provideFresh();
+        TypeVariable returnType = this.freshVariableProvider.provideFresh();
 
-        ConstraintRepository.getInstance().uni(bodyType, new ArrowType(argumentType, returnType));
+        this.constraintRepository.uni(bodyType, new ArrowType(argumentType, returnType));
 
         return returnType;
     }

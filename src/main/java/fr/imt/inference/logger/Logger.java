@@ -23,7 +23,7 @@ public class Logger {
         this.className = prettyClassName(clazz);
     }
 
-    private String prettyClassName(Class clazz){
+    private String prettyClassName(Class clazz) {
         String fullName = clazz.getName();
         List<String> exploded = Arrays.asList(fullName.split("\\."));
 
@@ -31,25 +31,25 @@ public class Logger {
         int size = exploded.size();
         for (int i = 0; i < size; i++) {
             String element = exploded.get(i);
-            if (i < size - 1){
+            if (i < size - 1) {
                 stringBuilder.append(element.charAt(0));
                 stringBuilder.append('.');
-            }else{
+            } else {
                 stringBuilder.append(element);
             }
         }
         return stringBuilder.toString();
     }
 
-    private void printMessage(String level, String color, String message){
+    private void printMessage(String level, String color, String message) {
         System.out.println(String.format("%s%5s%s %s[%s]%s %s", color, level, ANSI_RESET, ANSI_BLACK_BOLD_BRIGHT, this.className, ANSI_RESET, message));
     }
 
-    public void debug(String msg){
+    public void debug(String msg) {
         this.printMessage("DEBUG", ANSI_GREEN, msg);
     }
 
-    public void trace(String msg){
+    public void trace(String msg) {
         this.printMessage("TRACE", ANSI_BLUE, msg);
     }
 }

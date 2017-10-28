@@ -35,9 +35,9 @@ public class ExpressionPrinter {
 
     public String visit(Lambda lambda) {
         return MessageFormat.format(
-            "(\\{0} -> {1})",
-            this.visit(lambda.identifier),
-            this.visit(lambda.body)
+                "(\\{0} -> {1})",
+                this.visit(lambda.identifier),
+                this.visit(lambda.body)
         );
     }
 
@@ -47,10 +47,10 @@ public class ExpressionPrinter {
 
     public String visit(Let let) {
         return MessageFormat.format(
-            "let {0} = {1} in {2}",
-            this.visit(let.identifier),
-            this.visit(let.definition),
-            this.visit(let.body)
+                "let {0} = {1} in {2}",
+                this.visit(let.identifier),
+                this.visit(let.definition),
+                this.visit(let.body)
         );
     }
 

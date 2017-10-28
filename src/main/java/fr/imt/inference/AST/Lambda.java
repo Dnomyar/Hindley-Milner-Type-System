@@ -2,28 +2,29 @@ package fr.imt.inference.AST;
 
 import fr.imt.inference.Environment;
 import fr.imt.inference.FreshVariableProvider;
-import fr.imt.inference.type.TypeVariable;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
 
 public class Lambda implements Expression {
 
-    private Logger logger = new Logger(getClass());
-
     public final Variable identifier;
     public final Expression body;
+    private final Logger logger = new Logger(getClass());
+    private FreshVariableProvider freshVariableProvider;
 
-    public Lambda(Variable identifier, Expression body) {
+    public Lambda(Variable identifier, Expression body, FreshVariableProvider freshVariableProvider) {
         this.identifier = identifier;
         this.body = body;
+        this.freshVariableProvider = freshVariableProvider;
     }
 
     @Override
     public Type infer(Environment env) {
         logger.debug("Current exp " + this.toString());
 
-        TypeVariable resultType = FreshVariableProvider.getInstance().provideFresh();
+        TypeVariable resultType = this.freshVariableProvider.provideFresh();
 
         env.extend(this.identifier, resultType);
 
