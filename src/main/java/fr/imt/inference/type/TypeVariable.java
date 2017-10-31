@@ -2,6 +2,7 @@ package fr.imt.inference.type;
 
 import fr.imt.inference.SubstitutionCollection;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class TypeVariable implements Type {
@@ -24,7 +25,9 @@ public class TypeVariable implements Type {
 
     @Override
     public Set<TypeVariable> getFreeTypeVariables() {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        Set<TypeVariable> result = new HashSet<>();
+        result.add(this);
+        return result;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class TypeVariable implements Type {
 
     @Override
     public Type applySubstitution(SubstitutionCollection substitutions) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        return substitutions.getOrElse(this, this);
     }
 
 }

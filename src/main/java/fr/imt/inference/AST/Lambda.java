@@ -1,5 +1,6 @@
 package fr.imt.inference.AST;
 
+import fr.imt.inference.ConstraintRepository;
 import fr.imt.inference.Environment;
 import fr.imt.inference.FreshVariableProvider;
 import fr.imt.inference.logger.Logger;
@@ -21,14 +22,14 @@ public class Lambda implements Expression {
     }
 
     @Override
-    public Type infer(Environment env) {
+    public Type infer(Environment env, ConstraintRepository constraintRepository) {
         logger.debug("Current exp " + this.toString());
 
         TypeVariable resultType = this.freshVariableProvider.provideFresh();
 
         env.extend(this.identifier, resultType);
 
-        Type bodyType = this.body.infer(env);
+        Type bodyType = this.body.infer(env, constraintRepository);
 
         logger.debug("Type for body `" + this.body + "` is " + bodyType);
 

@@ -6,6 +6,9 @@ import fr.imt.inference.AST.Expression;
 import fr.imt.inference.AST.Variable;
 import fr.imt.inference.AST.factory.ExpressionFactory;
 import fr.imt.inference.di.AppInjector;
+import fr.imt.inference.errors.InfiniteTypeException;
+import fr.imt.inference.errors.UnificationFailureException;
+import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.logger.Logger;
 
 /**
@@ -45,9 +48,20 @@ public class Main {
         logger.debug(expression.toString());
         logger.debug("");
 
-        System.out.println(expression.infer(new Environment()));
+        ConstraintRepository constraintRepository = new ConstraintRepository();
+
+        System.out.println(expression.infer(new Environment(), constraintRepository));
 
 
-        System.out.println(ConstraintRepository.getInstance().getConstraints());
+        System.out.println(constraintRepository);
+        try {
+            System.out.println(new Unifiyer().runSolve(constraintRepository));
+        } catch (InfiniteTypeException e) {
+            e.printStackTrace();
+        } catch (UnificationMismatchException e) {
+            e.printStackTrace();
+        } catch (UnificationFailureException e) {
+            e.printStackTrace();
+        }
     }
 }

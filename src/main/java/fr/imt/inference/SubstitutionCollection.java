@@ -36,4 +36,13 @@ public class SubstitutionCollection {
     public static SubstitutionCollection empty(){
         return new SubstitutionCollection();
     }
+
+    public Type getOrElse(TypeVariable key, TypeVariable defaultValue) {
+        return this.substitutions.getOrDefault(key, defaultValue);
+    }
+
+    @Override
+    public String toString() {
+        return substitutions.toString();
+    }
 }

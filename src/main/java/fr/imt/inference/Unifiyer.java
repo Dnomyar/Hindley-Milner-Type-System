@@ -20,7 +20,7 @@ public class Unifiyer {
             return substitutions;
         }
 
-        Tuple<Type, Type> constraint = constraints.head();
+        Constraint constraint = constraints.head();
 
         SubstitutionCollection constraintSubstitutionCollection = unify(constraint);
 
@@ -32,7 +32,7 @@ public class Unifiyer {
     }
 
     // TODO refactor (left and right)
-    private SubstitutionCollection unify(Tuple<Type, Type> constraint) throws InfiniteTypeException, UnificationFailureException, UnificationMismatchException {
+    private SubstitutionCollection unify(Constraint constraint) throws InfiniteTypeException, UnificationFailureException, UnificationMismatchException {
         if(constraint.right.equals(constraint.left)){ // TODO implement equals
             return SubstitutionCollection.empty();
         }
@@ -73,7 +73,7 @@ public class Unifiyer {
         Type headArrowType1 = arrowType1.head();
         Type headArrowType2 = arrowType2.head();
 
-        SubstitutionCollection headSubstitutionCollection = unify(new Tuple<>(headArrowType1, headArrowType2)); // todo refactor unify
+        SubstitutionCollection headSubstitutionCollection = unify(new Constraint(headArrowType1, headArrowType2)); // todo refactor unify
 
         SubstitutionCollection tailSubstitutionCollection = unifyMany(
                 arrowType1.applySubstitution(headSubstitutionCollection),

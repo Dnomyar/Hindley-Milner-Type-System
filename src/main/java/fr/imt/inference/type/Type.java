@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public interface Type extends SubstitutionApplier<Type> {
     boolean isTypeVariable();
-    Set<TypeVariable> getFreeTypeVariables();
-
     boolean isArrow();
+
+    Set<TypeVariable> getFreeTypeVariables();
 }
