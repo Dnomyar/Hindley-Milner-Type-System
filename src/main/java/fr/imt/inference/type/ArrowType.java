@@ -1,6 +1,6 @@
 package fr.imt.inference.type;
 
-import fr.imt.inference.Substitution;
+import fr.imt.inference.SubstitutionCollection;
 
 import java.util.Set;
 
@@ -35,7 +35,7 @@ public class ArrowType implements Type {
     }
 
     @Override
-    public Type applySubstitution(Substitution substitutions) {
+    public Type applySubstitution(SubstitutionCollection substitutions) {
         throw new RuntimeException("NOT IMPLEMENTED");
     }
 }

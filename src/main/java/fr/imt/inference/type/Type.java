@@ -1,7 +1,7 @@
 package fr.imt.inference.type;
 
 
-import fr.imt.inference.Substitution;
+import fr.imt.inference.SubstitutionCollection;
 
 import java.util.Set;
 
@@ -17,5 +17,5 @@ public interface Type {
 
     boolean isArrow();
 
-    Type applySubstitution(Substitution substitutions);
+    Type applySubstitution(SubstitutionCollection substitutions);
 }

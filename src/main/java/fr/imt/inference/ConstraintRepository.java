@@ -1,6 +1,5 @@
 package fr.imt.inference;
 
-import com.google.inject.Singleton;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Type;
 
@@ -30,7 +29,7 @@ public class ConstraintRepository {
         return null; // todo -> turn not to be a singleton anymore
     }
 
-    public ConstraintRepository applySubstitution(Substitution headSubtitution) {
+    public ConstraintRepository applySubstitution(SubstitutionCollection headSubtitution) {
         return null; // todo -> turn not to be a singleton anymore
     }
 }

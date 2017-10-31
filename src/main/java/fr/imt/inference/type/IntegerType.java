@@ -1,6 +1,6 @@
 package fr.imt.inference.type;
 
-import fr.imt.inference.Substitution;
+import fr.imt.inference.SubstitutionCollection;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +27,7 @@ public class IntegerType extends TypeLiteral {
     }
 
     @Override
-    public Type applySubstitution(Substitution substitutions) {
+    public Type applySubstitution(SubstitutionCollection substitutions) {
         return this;
     }
 }

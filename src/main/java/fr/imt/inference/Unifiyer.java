@@ -7,16 +7,14 @@ import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 
-import java.util.List;
-
 public class Unifiyer {
 
 
-    public Substitution runSolve(ConstraintRepository constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
-        return solve(new Substitution(), constraints);
+    public SubstitutionCollection runSolve(ConstraintRepository constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
+        return solve(new SubstitutionCollection(), constraints);
     }
 
-    private Substitution solve(Substitution substitutions, ConstraintRepository constraints) throws UnificationFailureException, InfiniteTypeException, UnificationMismatchException {
+    private SubstitutionCollection solve(SubstitutionCollection substitutions, ConstraintRepository constraints) throws UnificationFailureException, InfiniteTypeException, UnificationMismatchException {
 
         if(constraints.isEmpty()) {
             return substitutions;
@@ -24,9 +22,9 @@ public class Unifiyer {
 
         Tuple<Type, Type> constraint = constraints.head();
 
-        Substitution constraintSubstitution = unify(constraint);
+        SubstitutionCollection constraintSubstitutionCollection = unify(constraint);
 
-        Substitution headSubtitution = constraintSubstitution.concat(substitutions);
+        SubstitutionCollection headSubtitution = constraintSubstitutionCollection.concat(substitutions);
 
         ConstraintRepository tailConstraints = constraints.tail().applySubstitution(headSubtitution); // TODO add an iface with method applySubstitution ?
 
@@ -34,9 +32,9 @@ public class Unifiyer {
     }
 
     // TODO refactor (left and right)
-    private Substitution unify(Tuple<Type, Type> constraint) throws InfiniteTypeException, UnificationFailureException, UnificationMismatchException {
+    private SubstitutionCollection unify(Tuple<Type, Type> constraint) throws InfiniteTypeException, UnificationFailureException, UnificationMismatchException {
         if(constraint.right.equals(constraint.left)){ // TODO implement equals
-            return new Substitution();
+            return new SubstitutionCollection();
         }
 
         if(constraint.right.isTypeVariable()){
@@ -61,10 +59,10 @@ public class Unifiyer {
     }
 
 
-    private Substitution unifyMany(TypeList arrowType1, TypeList arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
+    private SubstitutionCollection unifyMany(TypeList arrowType1, TypeList arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
         // both empty
         if(arrowType1.isEmpty() && arrowType2.isEmpty()){
-            return new Substitution();
+            return new SubstitutionCollection();
         }
         // one empty the other is not
         if(arrowType1.isEmpty() || arrowType2.isEmpty()){
@@ -75,25 +73,25 @@ public class Unifiyer {
         Type headArrowType1 = arrowType1.head();
         Type headArrowType2 = arrowType2.head();
 
-        Substitution headSubstitution = unify(new Tuple<>(headArrowType1, headArrowType2)); // todo refactor unify
+        SubstitutionCollection headSubstitutionCollection = unify(new Tuple<>(headArrowType1, headArrowType2)); // todo refactor unify
 
-        Substitution tailSubstitution = unifyMany(
-                arrowType1.applySubstitution(headSubstitution),
-                arrowType2.applySubstitution(headSubstitution)
+        SubstitutionCollection tailSubstitutionCollection = unifyMany(
+                arrowType1.applySubstitution(headSubstitutionCollection),
+                arrowType2.applySubstitution(headSubstitutionCollection)
         );
 
-        return tailSubstitution.concat(headSubstitution);
+        return tailSubstitutionCollection.concat(headSubstitutionCollection);
     }
 
 
-    private Substitution bind(TypeVariable typeVariable, Type type) throws InfiniteTypeException{
+    private SubstitutionCollection bind(TypeVariable typeVariable, Type type) throws InfiniteTypeException{
         if(type.isTypeVariable() && typeVariable.equals(type)){
-            return new Substitution();
+            return new SubstitutionCollection();
         }
         if(isPartOfFreeVariables(typeVariable, type)){
             throw new InfiniteTypeException(typeVariable, type);
         }
-        return new Substitution(typeVariable, type);
+        return new SubstitutionCollection(typeVariable, type);
     }
 
     private boolean isPartOfFreeVariables(TypeVariable typeVariable, Type type) {

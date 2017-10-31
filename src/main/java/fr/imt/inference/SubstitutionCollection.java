@@ -6,25 +6,25 @@ import fr.imt.inference.type.TypeVariable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Substitution {
+public class SubstitutionCollection {
 
     private Map<TypeVariable, Type> substitutions;
 
-    public Substitution() {
+    public SubstitutionCollection() {
         this.substitutions = new HashMap<>();
     }
 
-    public Substitution(TypeVariable typeVariable, Type type) {
+    public SubstitutionCollection(TypeVariable typeVariable, Type type) {
         this.substitutions = new HashMap<>();
         this.substitutions.put(typeVariable, type);
     }
 
-    public Substitution add(TypeVariable typeVariable, Type type) {
+    public SubstitutionCollection add(TypeVariable typeVariable, Type type) {
         this.substitutions.put(typeVariable, type);
         return this;
     }
 
-    public Substitution concat(Substitution substitutions) {
+    public SubstitutionCollection concat(SubstitutionCollection substitutions) {
         HashMap<TypeVariable, Type> subst = new HashMap<>();
 
         subst.putAll(this.substitutions);
@@ -33,7 +33,7 @@ public class Substitution {
         return substitutions;
     }
 
-    public static Substitution empty(){
-        return new Substitution();
+    public static SubstitutionCollection empty(){
+        return new SubstitutionCollection();
     }
 }

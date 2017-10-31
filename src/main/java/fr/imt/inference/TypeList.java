@@ -2,10 +2,8 @@ package fr.imt.inference;
 
 import fr.imt.inference.type.Type;
 
-import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.stream.Collectors;
 
 
@@ -36,7 +34,7 @@ public class TypeList {
         return types.poll();
     }
 
-    public TypeList applySubstitution(Substitution substitutions) {
+    public TypeList applySubstitution(SubstitutionCollection substitutions) {
         LinkedList<Type> typesSubstitued =
                 new LinkedList<>(this.types.stream()
                     .map(type -> type.applySubstitution(substitutions))
