@@ -18,6 +18,11 @@ public class TypeList {
         this.types = new LinkedList<>();
     }
 
+    public TypeList(Type... types) {
+        this.types = new LinkedList<>();
+        Collections.addAll(this.types, types);
+    }
+
     public TypeList(LinkedList<Type> types) {
         this.types = types;
     }

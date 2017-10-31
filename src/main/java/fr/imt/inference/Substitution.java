@@ -14,6 +14,11 @@ public class Substitution {
         this.substitutions = new HashMap<>();
     }
 
+    public Substitution(TypeVariable typeVariable, Type type) {
+        this.substitutions = new HashMap<>();
+        this.substitutions.put(typeVariable, type);
+    }
+
     public Substitution add(TypeVariable typeVariable, Type type) {
         this.substitutions.put(typeVariable, type);
         return this;
@@ -26,5 +31,9 @@ public class Substitution {
         subst.putAll(substitutions.substitutions);
 
         return substitutions;
+    }
+
+    public static Substitution empty(){
+        return new Substitution();
     }
 }

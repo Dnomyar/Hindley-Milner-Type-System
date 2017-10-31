@@ -26,11 +26,11 @@ public class Unifiyer {
 
         Substitution constraintSubstitution = unify(constraint);
 
-        Substitution headSubstitution = constraintSubstitution.concat(substitutions);
+        Substitution headSubtitution = constraintSubstitution.concat(substitutions);
 
-        ConstraintRepository tailConstraints = constraints.tail().applySubstitution(headSubstitution); // TODO add an iface with method applySubstitution ?
+        ConstraintRepository tailConstraints = constraints.tail().applySubstitution(headSubtitution); // TODO add an iface with method applySubstitution ?
 
-        return solve(headSubstitution, tailConstraints);
+        return solve(headSubtitution, tailConstraints);
     }
 
     // TODO refactor (left and right)
@@ -51,8 +51,8 @@ public class Unifiyer {
             ArrowType leftArrowType = (ArrowType) constraint.left;
             ArrowType rightArrowType = (ArrowType) constraint.right;
 
-            TypeList arrowType1 = new TypeList().add(leftArrowType.left, leftArrowType.right);
-            TypeList arrowType2 = new TypeList().add(rightArrowType.left, rightArrowType.right);
+            TypeList arrowType1 = new TypeList(leftArrowType.left, leftArrowType.right);
+            TypeList arrowType2 = new TypeList(rightArrowType.left, rightArrowType.right);
 
             return unifyMany(arrowType1, arrowType2);
         }
@@ -77,7 +77,10 @@ public class Unifiyer {
 
         Substitution headSubstitution = unify(new Tuple<>(headArrowType1, headArrowType2)); // todo refactor unify
 
-        Substitution tailSubstitution = unifyMany(arrowType1.applySubstitution(headSubstitution), arrowType2.applySubstitution(headSubstitution));
+        Substitution tailSubstitution = unifyMany(
+                arrowType1.applySubstitution(headSubstitution),
+                arrowType2.applySubstitution(headSubstitution)
+        );
 
         return tailSubstitution.concat(headSubstitution);
     }
@@ -90,7 +93,7 @@ public class Unifiyer {
         if(isPartOfFreeVariables(typeVariable, type)){
             throw new InfiniteTypeException(typeVariable, type);
         }
-        return new Substitution().add(typeVariable, type);
+        return new Substitution(typeVariable, type);
     }
 
     private boolean isPartOfFreeVariables(TypeVariable typeVariable, Type type) {
