@@ -9,7 +9,6 @@ public class Tuple<TLEFT, TRIGHT> {
         this.right = right;
     }
 
-
     @Override
     public String toString() {
         return "(" + this.left + ", " + this.right + ")";
