@@ -3,12 +3,14 @@ package fr.imt.inference;
 import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
+import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 
 public class Unifiyer {
 
+    private Logger logger = new Logger(getClass());
 
     public SubstitutionCollection runSolve(ConstraintRepository constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
         return solve(SubstitutionCollection.empty(), constraints);
@@ -24,15 +26,20 @@ public class Unifiyer {
 
         SubstitutionCollection constraintSubstitutionCollection = unify(constraint);
 
-        SubstitutionCollection headSubtitution = constraintSubstitutionCollection.concat(substitutions);
+        SubstitutionCollection headSubstitution = constraintSubstitutionCollection.concat(substitutions);
 
-        ConstraintRepository tailConstraints = constraints.tail().applySubstitution(headSubtitution); // TODO add an iface with method applySubstitution ?
+        logger.debug("Unifying constraint result : " + constraint + " -> " + constraintSubstitutionCollection + " == " + headSubstitution);
 
-        return solve(headSubtitution, tailConstraints);
+        ConstraintRepository tailConstraints = constraints.tail().applySubstitution(headSubstitution);
+
+        return solve(headSubstitution, tailConstraints);
     }
 
     // TODO refactor (left and right)
     private SubstitutionCollection unify(Constraint constraint) throws InfiniteTypeException, UnificationFailureException, UnificationMismatchException {
+
+        //logger.debug("Unifying constraint  : " + constraint);
+
         if(constraint.right.equals(constraint.left)){ // TODO implement equals
             return SubstitutionCollection.empty();
         }
@@ -74,6 +81,9 @@ public class Unifiyer {
         Type headArrowType2 = arrowType2.head();
 
         SubstitutionCollection headSubstitutionCollection = unify(new Constraint(headArrowType1, headArrowType2)); // todo refactor unify
+
+        logger.debug("Unifying constraint result : " + new Constraint(headArrowType1, headArrowType2) + " -> " + headSubstitutionCollection);
+
 
         SubstitutionCollection tailSubstitutionCollection = unifyMany(
                 arrowType1.applySubstitution(headSubstitutionCollection),

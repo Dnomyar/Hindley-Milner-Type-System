@@ -13,6 +13,9 @@ public class SubstitutionCollection {
     public SubstitutionCollection() {
         this.substitutions = new HashMap<>();
     }
+    public SubstitutionCollection(Map<TypeVariable, Type> substitutions) {
+        this.substitutions = substitutions;
+    }
 
     public SubstitutionCollection(TypeVariable typeVariable, Type type) {
         this.substitutions = new HashMap<>();
@@ -30,7 +33,7 @@ public class SubstitutionCollection {
         subst.putAll(this.substitutions);
         subst.putAll(substitutions.substitutions);
 
-        return substitutions;
+        return new SubstitutionCollection(subst);
     }
 
     public static SubstitutionCollection empty(){
