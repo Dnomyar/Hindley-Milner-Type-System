@@ -11,7 +11,7 @@ public class Unifiyer {
 
 
     public SubstitutionCollection runSolve(ConstraintRepository constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
-        return solve(new SubstitutionCollection(), constraints);
+        return solve(SubstitutionCollection.empty(), constraints);
     }
 
     private SubstitutionCollection solve(SubstitutionCollection substitutions, ConstraintRepository constraints) throws UnificationFailureException, InfiniteTypeException, UnificationMismatchException {
@@ -34,7 +34,7 @@ public class Unifiyer {
     // TODO refactor (left and right)
     private SubstitutionCollection unify(Tuple<Type, Type> constraint) throws InfiniteTypeException, UnificationFailureException, UnificationMismatchException {
         if(constraint.right.equals(constraint.left)){ // TODO implement equals
-            return new SubstitutionCollection();
+            return SubstitutionCollection.empty();
         }
 
         if(constraint.right.isTypeVariable()){
@@ -62,7 +62,7 @@ public class Unifiyer {
     private SubstitutionCollection unifyMany(TypeList arrowType1, TypeList arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
         // both empty
         if(arrowType1.isEmpty() && arrowType2.isEmpty()){
-            return new SubstitutionCollection();
+            return SubstitutionCollection.empty();
         }
         // one empty the other is not
         if(arrowType1.isEmpty() || arrowType2.isEmpty()){
@@ -86,7 +86,7 @@ public class Unifiyer {
 
     private SubstitutionCollection bind(TypeVariable typeVariable, Type type) throws InfiniteTypeException{
         if(type.isTypeVariable() && typeVariable.equals(type)){
-            return new SubstitutionCollection();
+            return SubstitutionCollection.empty();
         }
         if(isPartOfFreeVariables(typeVariable, type)){
             throw new InfiniteTypeException(typeVariable, type);

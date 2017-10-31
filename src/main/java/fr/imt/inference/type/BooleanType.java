@@ -26,8 +26,4 @@ public class BooleanType extends TypeLiteral {
         return false;
     }
 
-    @Override
-    public Type applySubstitution(SubstitutionCollection substitutions) {
-        return this;
-    }
 }

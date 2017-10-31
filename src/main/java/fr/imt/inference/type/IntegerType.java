@@ -25,9 +25,4 @@ public class IntegerType extends TypeLiteral {
     public boolean isArrow() {
         return false;
     }
-
-    @Override
-    public Type applySubstitution(SubstitutionCollection substitutions) {
-        return this;
-    }
 }

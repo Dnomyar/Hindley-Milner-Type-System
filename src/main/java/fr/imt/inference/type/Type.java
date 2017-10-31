@@ -1,6 +1,7 @@
 package fr.imt.inference.type;
 
 
+import fr.imt.inference.SubstitutionApplier;
 import fr.imt.inference.SubstitutionCollection;
 
 import java.util.Set;
@@ -11,11 +12,9 @@ import java.util.Set;
  * - arrow
  * - type variable
  */
-public interface Type {
+public interface Type extends SubstitutionApplier<Type> {
     boolean isTypeVariable();
     Set<TypeVariable> getFreeTypeVariables();
 
     boolean isArrow();
-
-    Type applySubstitution(SubstitutionCollection substitutions);
 }
