@@ -46,5 +46,8 @@ public class Main {
         logger.debug("");
 
         System.out.println(expression.infer(new Environment()));
+
+
+        System.out.println(ConstraintRepository.getInstance().getConstraints());
     }
 }

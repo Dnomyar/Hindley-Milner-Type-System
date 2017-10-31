@@ -49,6 +49,6 @@ public class Application implements Expression {
 
     @Override
     public String toString() {
-        return this.body + " " + this.argument;
+        return "(" + this.body + " " + this.argument + ")";
     }
 }
