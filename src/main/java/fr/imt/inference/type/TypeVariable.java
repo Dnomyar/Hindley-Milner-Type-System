@@ -15,7 +15,7 @@ public class TypeVariable implements Type {
 
     @Override
     public boolean isTypeVariable() {
-        return false;
+        return true;
     }
 
     @Override
