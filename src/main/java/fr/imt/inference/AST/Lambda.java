@@ -11,7 +11,7 @@ public class Lambda implements Expression {
 
     public final Variable identifier;
     public final Expression body;
-    private final Logger logger = new Logger(getClass());
+    private final Logger logger = new Logger();
     private FreshVariableProvider freshVariableProvider;
 
     public Lambda(Variable identifier, Expression body, FreshVariableProvider freshVariableProvider) {

@@ -7,7 +7,7 @@ import fr.imt.inference.type.Type;
 @Singleton
 public class ConstraintRepository {
 
-    private final Logger logger = new Logger(getClass());
+    private final Logger logger = new Logger();
 
     public void uni(Type t1, Type t2) {
         logger.debug("Adding constraint : (" + t1 + ", " + t2 + ")");

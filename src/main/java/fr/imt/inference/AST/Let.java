@@ -10,7 +10,7 @@ public class Let implements Expression {
     public final Variable identifier;
     public final Expression definition;
     public final Expression body;
-    private final Logger logger = new Logger(getClass());
+    private final Logger logger = new Logger();
 
     public Let(Variable identifier, Expression definition, Expression body) {
         this.identifier = identifier;

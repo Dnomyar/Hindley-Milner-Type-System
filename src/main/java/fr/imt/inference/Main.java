@@ -13,7 +13,7 @@ import fr.imt.inference.logger.Logger;
  */
 public class Main {
 
-    private static Logger logger = new Logger(Main.class);
+    private final static Logger logger = new Logger();
 
     public static void main(String[] args) {
 

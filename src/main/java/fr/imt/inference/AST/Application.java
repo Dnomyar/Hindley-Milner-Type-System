@@ -12,7 +12,7 @@ public class Application implements Expression {
 
     public final Expression body;
     public final Expression argument;
-    private final Logger logger = new Logger(getClass());
+    private final Logger logger = new Logger();
     private ConstraintRepository constraintRepository;
     private FreshVariableProvider freshVariableProvider;
 
