@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Environment {
 
-    private Logger logger = new Logger(getClass());
+    private Logger logger = new Logger();
 
 
     private Map<Expression, Type> env;

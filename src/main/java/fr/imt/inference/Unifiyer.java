@@ -10,7 +10,7 @@ import fr.imt.inference.type.TypeVariable;
 
 public class Unifiyer {
 
-    private Logger logger = new Logger(getClass());
+    private Logger logger = new Logger();
 
     public SubstitutionCollection runSolve(ConstraintRepository constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
         return solve(SubstitutionCollection.empty(), constraints);
