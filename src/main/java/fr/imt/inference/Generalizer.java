@@ -1,6 +1,5 @@
 package fr.imt.inference;
 
-import fr.imt.inference.Environment;
 import fr.imt.inference.type.Type;
 
 public class Generalizer {

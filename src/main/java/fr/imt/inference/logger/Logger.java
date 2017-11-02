@@ -2,8 +2,6 @@ package fr.imt.inference.logger;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -29,7 +27,7 @@ public class Logger {
         this.className = this.prettyClassName(new Exception().getStackTrace()[1].getClassName());
     }
 
-    private String prettyClassName(String className){
+    private String prettyClassName(String className) {
         List<String> exploded = Arrays.asList(className.split("\\."));
 
         final IntPredicate isLastElement = (int i) -> i == exploded.size() - 1;
@@ -45,15 +43,15 @@ public class Logger {
         return readyToPrintClassNameParts.stream().collect(Collectors.joining("."));
     }
 
-    private void printMessage(String level, String color, String message){
+    private void printMessage(String level, String color, String message) {
         System.out.println(String.format("%s%5s%s %s[%s]%s %s", color, level, ANSI_RESET, ANSI_BLACK_BOLD_BRIGHT, this.className, ANSI_RESET, message));
     }
 
-    public void debug(String msg){
+    public void debug(String msg) {
         this.printMessage("DEBUG", ANSI_GREEN, msg);
     }
 
-    public void trace(String msg){
+    public void trace(String msg) {
         this.printMessage("TRACE", ANSI_BLUE, msg);
     }
 
