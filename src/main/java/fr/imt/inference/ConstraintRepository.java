@@ -5,7 +5,7 @@ import fr.imt.inference.type.Type;
 
 public class ConstraintRepository {
 
-    private Logger logger = new Logger(getClass());
+    private Logger logger = new Logger();
 
 
     private static ConstraintRepository ourInstance = new ConstraintRepository();

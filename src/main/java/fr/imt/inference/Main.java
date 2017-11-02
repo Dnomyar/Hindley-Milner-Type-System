@@ -10,8 +10,7 @@ import static fr.imt.inference.AST.factory.ExpressionFactory.*;
  */
 public class Main {
 
-    private static Logger logger = new Logger(Main.class);
-
+    private static Logger logger = new Logger();
 
     public static void main(String[] args) {
         Variable F = Var("f");

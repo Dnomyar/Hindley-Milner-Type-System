@@ -8,7 +8,7 @@ import fr.imt.inference.type.Type;
 public class Let implements Expression {
 
 
-    private Logger logger = new Logger(getClass());
+    private Logger logger = new Logger();
 
     public final Variable identifier;
     public final Expression definition;
