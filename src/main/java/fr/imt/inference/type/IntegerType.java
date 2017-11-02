@@ -1,8 +1,5 @@
 package fr.imt.inference.type;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class IntegerType extends TypeLiteral {
     @Override
     public String toString() {
@@ -12,11 +9,6 @@ public class IntegerType extends TypeLiteral {
     @Override
     public boolean isTypeVariable() {
         return false;
-    }
-
-    @Override
-    public Set<TypeVariable> getFreeTypeVariables() {
-        return new HashSet<>();
     }
 
     @Override

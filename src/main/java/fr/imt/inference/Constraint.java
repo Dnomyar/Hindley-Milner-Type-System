@@ -2,7 +2,7 @@ package fr.imt.inference;
 
 import fr.imt.inference.type.Type;
 
-public class Constraint implements SubstitutionApplier<Constraint> {
+public class Constraint implements Substituable<Constraint> {
 
     public final Type left;
     public final Type right;
@@ -16,6 +16,7 @@ public class Constraint implements SubstitutionApplier<Constraint> {
     public Constraint applySubstitution(SubstitutionCollection substitutions) {
         Type newLeft = left.applySubstitution(substitutions);
         Type newRight = right.applySubstitution(substitutions);
+
         return new Constraint(newLeft, newRight);
     }
 

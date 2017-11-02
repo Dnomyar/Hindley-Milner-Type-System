@@ -36,6 +36,11 @@ public class ArrowType implements Type {
     }
 
     @Override
+    public Boolean containsTheFreeVariable(TypeVariable freeTypeVariable) {
+        return this.getFreeTypeVariables().contains(freeTypeVariable);
+    }
+
+    @Override
     public boolean isArrow() {
         return true;
     }
@@ -44,6 +49,7 @@ public class ArrowType implements Type {
     public Type applySubstitution(SubstitutionCollection substitutions) {
         Type newLeft = left.applySubstitution(substitutions);
         Type newRight = right.applySubstitution(substitutions);
+
         return new ArrowType(newLeft, newRight);
     }
 }

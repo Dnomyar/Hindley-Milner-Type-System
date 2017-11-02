@@ -21,12 +21,9 @@ public class Main {
     private final static Logger logger = new Logger();
 
     public static void main(String[] args) {
+Injector injector = Guice.createInjector(new AppInjector());
 
-        Injector injector = Guice.createInjector(new AppInjector());
-
-        ExpressionFactory ef = injector.getInstance(ExpressionFactory.class);
-
-        Variable F = ef.Var("f");
+        ExpressionFactory ef = injector.getInstance(ExpressionFactory.class);        Variable F = ef.Var("f");
         Variable a = ef.Var("a");
         Variable b = ef.Var("b");
         Variable x = ef.Var("x");
@@ -50,14 +47,15 @@ public class Main {
         logger.debug(expression.toString());
         logger.debug("");
 
-        ConstraintRepository constraintRepository = new ConstraintRepository();
+        ConstraintCollection constraintCollection = new ConstraintCollection();
 
-        System.out.println(expression.infer(new Environment(), constraintRepository));
+        System.out.println(expression.infer(new Environment(), constraintCollection));
 
+        System.out.println("Inference Finished");
 
-        System.out.println(constraintRepository);
+        System.out.println(constraintCollection);
         try {
-            System.out.println(new Unifiyer().runSolve(constraintRepository));
+            System.out.println(new Unifiyer().runSolve(constraintCollection));
         } catch (InfiniteTypeException e) {
             e.printStackTrace();
         } catch (UnificationMismatchException e) {

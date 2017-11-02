@@ -1,8 +1,8 @@
 package fr.imt.inference.AST;
 
-import fr.imt.inference.ConstraintRepository;
+import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
-import fr.imt.inference.FreshVariableProvider;
+import fr.imt.inference.FreshVariable;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
@@ -12,6 +12,7 @@ public class Application implements Expression {
 
     public final Expression body;
     public final Expression argument;
+
     private final Logger logger = new Logger();
     private ConstraintRepository constraintRepository;
     private FreshVariableProvider freshVariableProvider;
@@ -29,20 +30,21 @@ public class Application implements Expression {
     }
 
     @Override
-    public Type infer(Environment env, ConstraintRepository constraintRepository) {
-        logger.debug("Current exp " + this.toString());
+    public Type infer(Environment env, ConstraintCollection constraintCollection) {
+        logger.debug("Context: " + this.toString());
 
-        Type bodyType = this.body.infer(env, constraintRepository);
+        Type bodyType = this.body.infer(env, constraintCollection);
 
-        logger.debug("Type for body `" + this.body + "` is " + bodyType);
+        logger.debug(":t body `" + this.body + "` => " + bodyType);
 
-        Type argumentType = this.argument.infer(env, constraintRepository);
+        Type argumentType = this.argument.infer(env, constraintCollection);
 
-        logger.debug("Type for argument `" + this.argument + "` is " + argumentType);
+        logger.debug(":t argument `" + this.argument + "` => " + argumentType);
 
         TypeVariable returnType = this.freshVariableProvider.provideFresh();
+        TypeVariable returnType = new FreshVariable();
 
-        this.constraintRepository.uni(bodyType, new ArrowType(argumentType, returnType));
+        constraintCollection.add(bodyType, new ArrowType(argumentType, returnType));
 
         return returnType;
     }

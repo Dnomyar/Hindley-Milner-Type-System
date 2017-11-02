@@ -12,12 +12,11 @@ public class Unifiyer {
 
     private Logger logger = new Logger();
 
-    public SubstitutionCollection runSolve(ConstraintRepository constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
-        return solve(SubstitutionCollection.empty(), constraints);
+    public SubstitutionCollection runSolve(ConstraintCollection constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
+        return solve(new SubstitutionCollection(), constraints);
     }
 
-    private SubstitutionCollection solve(SubstitutionCollection substitutions, ConstraintRepository constraints) throws UnificationFailureException, InfiniteTypeException, UnificationMismatchException {
-
+    private SubstitutionCollection solve(SubstitutionCollection substitutions, ConstraintCollection constraints) throws UnificationFailureException, InfiniteTypeException, UnificationMismatchException {
         if (constraints.isEmpty()) {
             return substitutions;
         }
@@ -30,7 +29,7 @@ public class Unifiyer {
 
         logger.debug("Unifying constraint result : " + constraint + " -> " + constraintSubstitutionCollection + " == " + headSubstitution);
 
-        ConstraintRepository tailConstraints = constraints.tail().applySubstitution(headSubstitution);
+        ConstraintCollection tailConstraints = constraints.tail().applySubstitution(headSubstitution);
 
         return solve(headSubstitution, tailConstraints);
     }
@@ -41,7 +40,7 @@ public class Unifiyer {
         //logger.debug("Unifying constraint  : " + constraint);
 
         if (constraint.right.equals(constraint.left)) { // TODO implement equals
-            return SubstitutionCollection.empty();
+            return new SubstitutionCollection();
         }
 
         if (constraint.right.isTypeVariable()) {
@@ -69,7 +68,7 @@ public class Unifiyer {
     private SubstitutionCollection unifyMany(TypeList arrowType1, TypeList arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
         // both empty
         if (arrowType1.isEmpty() && arrowType2.isEmpty()) {
-            return SubstitutionCollection.empty();
+            return new SubstitutionCollection();
         }
         // one empty the other is not
         if (arrowType1.isEmpty() || arrowType2.isEmpty()) {
@@ -96,17 +95,12 @@ public class Unifiyer {
 
     private SubstitutionCollection bind(TypeVariable typeVariable, Type type) throws InfiniteTypeException {
         if (type.isTypeVariable() && typeVariable.equals(type)) {
-            return SubstitutionCollection.empty();
+            return new SubstitutionCollection();
         }
-        if (isPartOfFreeVariables(typeVariable, type)) {
+        if (type.containsTheFreeVariable(typeVariable)) {
             throw new InfiniteTypeException(typeVariable, type);
         }
+
         return new SubstitutionCollection(typeVariable, type);
     }
-
-    private boolean isPartOfFreeVariables(TypeVariable typeVariable, Type type) {
-        return type.getFreeTypeVariables().contains(typeVariable);
-    }
-
-
 }

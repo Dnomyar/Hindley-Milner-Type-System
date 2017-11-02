@@ -1,17 +1,16 @@
 package fr.imt.inference.AST;
 
-import fr.imt.inference.ConstraintRepository;
+import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
 import fr.imt.inference.Generalizer;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Type;
 
 public class Let implements Expression {
-
-
     public final Variable identifier;
     public final Expression definition;
     public final Expression body;
+
     private final Logger logger = new Logger();
 
     public Let(Variable identifier, Expression definition, Expression body) {
@@ -21,24 +20,20 @@ public class Let implements Expression {
     }
 
     @Override
-    public Type infer(Environment env, ConstraintRepository constraintRepository) {
+    public Type infer(Environment env, ConstraintCollection constraintCollection) {
+        logger.debug("Context: " + this.toString());
 
-        logger.debug("Current exp " + this.toString());
+        Type definitionType = this.definition.infer(env, constraintCollection);
 
-
-        Type definitionType = this.definition.infer(env, constraintRepository);
-
-        logger.debug("Type for definition `" + this.definition + "` is " + definitionType);
-
+        logger.debug(":t definition `" + this.definition + "` => " + definitionType);
 
         Type generalizedType = new Generalizer().generalize(env, definitionType);
 
         env.extend(this.identifier, generalizedType);
 
-        Type bodyType = this.body.infer(env, constraintRepository);
+        Type bodyType = this.body.infer(env, constraintCollection);
 
-        logger.debug("Type for bodyType `" + this.body + "` is " + bodyType);
-
+        logger.debug(":t body `" + this.body + "` => " + bodyType);
 
         env.remove(this.identifier);
 

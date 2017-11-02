@@ -1,6 +1,6 @@
 package fr.imt.inference.AST;
 
-import fr.imt.inference.ConstraintRepository;
+import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
 import fr.imt.inference.type.IntegerType;
 import fr.imt.inference.type.Type;
@@ -13,10 +13,9 @@ public class TInteger implements Literal {
     }
 
     @Override
-    public Type infer(Environment env, ConstraintRepository constraintRepository) {
+    public Type infer(Environment env, ConstraintCollection constraintCollection) {
         return new IntegerType();
     }
-
 
     @Override
     public String toString() {

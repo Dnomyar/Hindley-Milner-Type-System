@@ -31,6 +31,11 @@ public class TypeVariable implements Type {
     }
 
     @Override
+    public Boolean containsTheFreeVariable(TypeVariable freeTypeVariable) {
+        return this.getFreeTypeVariables().contains(freeTypeVariable);
+    }
+
+    @Override
     public boolean isArrow() {
         return false;
     }

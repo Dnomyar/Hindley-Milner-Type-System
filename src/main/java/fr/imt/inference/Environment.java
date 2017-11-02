@@ -19,13 +19,13 @@ public class Environment {
         this.env = new HashMap<>();
     }
 
-
     public void extend(Expression expression, Type type) {
-        logger.trace("Update env, add " + expression + " -> " + type);
+        logger.trace("Extend env: " + expression + " -> " + type);
         this.env.put(expression, type);
     }
 
     public void remove(Expression expression) {
+        logger.trace("Remove : " + expression + " linked to " + this.env.get(expression) + " from env.");
         this.env.remove(expression);
     }
 

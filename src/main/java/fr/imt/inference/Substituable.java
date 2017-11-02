@@ -1,6 +1,6 @@
 package fr.imt.inference;
 
-public interface SubstitutionApplier<T> {
+public interface Substituable<T> {
 
     T applySubstitution(SubstitutionCollection substitutions);
 
