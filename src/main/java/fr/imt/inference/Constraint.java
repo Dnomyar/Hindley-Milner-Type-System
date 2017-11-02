@@ -1,7 +1,6 @@
 package fr.imt.inference;
 
 import fr.imt.inference.type.Type;
-import fr.imt.inference.type.TypeVariable;
 
 public class Constraint implements SubstitutionApplier<Constraint> {
 

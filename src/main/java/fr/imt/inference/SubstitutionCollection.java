@@ -13,6 +13,7 @@ public class SubstitutionCollection {
     public SubstitutionCollection() {
         this.substitutions = new HashMap<>();
     }
+
     public SubstitutionCollection(Map<TypeVariable, Type> substitutions) {
         this.substitutions = substitutions;
     }
@@ -20,6 +21,10 @@ public class SubstitutionCollection {
     public SubstitutionCollection(TypeVariable typeVariable, Type type) {
         this.substitutions = new HashMap<>();
         this.substitutions.put(typeVariable, type);
+    }
+
+    public static SubstitutionCollection empty() {
+        return new SubstitutionCollection();
     }
 
     public SubstitutionCollection add(TypeVariable typeVariable, Type type) {
@@ -34,10 +39,6 @@ public class SubstitutionCollection {
         subst.putAll(substitutions.substitutions);
 
         return new SubstitutionCollection(subst);
-    }
-
-    public static SubstitutionCollection empty(){
-        return new SubstitutionCollection();
     }
 
     public Type getOrElse(TypeVariable key, TypeVariable defaultValue) {

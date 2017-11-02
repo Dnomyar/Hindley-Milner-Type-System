@@ -37,8 +37,8 @@ public class TypeList {
     public TypeList applySubstitution(SubstitutionCollection substitutions) {
         LinkedList<Type> typesSubstitued =
                 new LinkedList<>(this.types.stream()
-                    .map(type -> type.applySubstitution(substitutions))
-                    .collect(Collectors.toList()));
+                        .map(type -> type.applySubstitution(substitutions))
+                        .collect(Collectors.toList()));
 
         return new TypeList(typesSubstitued);
     }

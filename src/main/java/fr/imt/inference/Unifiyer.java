@@ -18,7 +18,7 @@ public class Unifiyer {
 
     private SubstitutionCollection solve(SubstitutionCollection substitutions, ConstraintRepository constraints) throws UnificationFailureException, InfiniteTypeException, UnificationMismatchException {
 
-        if(constraints.isEmpty()) {
+        if (constraints.isEmpty()) {
             return substitutions;
         }
 
@@ -40,19 +40,19 @@ public class Unifiyer {
 
         //logger.debug("Unifying constraint  : " + constraint);
 
-        if(constraint.right.equals(constraint.left)){ // TODO implement equals
+        if (constraint.right.equals(constraint.left)) { // TODO implement equals
             return SubstitutionCollection.empty();
         }
 
-        if(constraint.right.isTypeVariable()){
+        if (constraint.right.isTypeVariable()) {
             return bind((TypeVariable) constraint.right, constraint.left);
         }
 
-        if(constraint.left.isTypeVariable()){
+        if (constraint.left.isTypeVariable()) {
             return bind((TypeVariable) constraint.left, constraint.right);
         }
 
-        if(constraint.left.isArrow() && constraint.right.isArrow()){
+        if (constraint.left.isArrow() && constraint.right.isArrow()) {
             ArrowType leftArrowType = (ArrowType) constraint.left;
             ArrowType rightArrowType = (ArrowType) constraint.right;
 
@@ -68,11 +68,11 @@ public class Unifiyer {
 
     private SubstitutionCollection unifyMany(TypeList arrowType1, TypeList arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
         // both empty
-        if(arrowType1.isEmpty() && arrowType2.isEmpty()){
+        if (arrowType1.isEmpty() && arrowType2.isEmpty()) {
             return SubstitutionCollection.empty();
         }
         // one empty the other is not
-        if(arrowType1.isEmpty() || arrowType2.isEmpty()){
+        if (arrowType1.isEmpty() || arrowType2.isEmpty()) {
             throw new UnificationMismatchException(arrowType1, arrowType2);
         }
 
@@ -94,11 +94,11 @@ public class Unifiyer {
     }
 
 
-    private SubstitutionCollection bind(TypeVariable typeVariable, Type type) throws InfiniteTypeException{
-        if(type.isTypeVariable() && typeVariable.equals(type)){
+    private SubstitutionCollection bind(TypeVariable typeVariable, Type type) throws InfiniteTypeException {
+        if (type.isTypeVariable() && typeVariable.equals(type)) {
             return SubstitutionCollection.empty();
         }
-        if(isPartOfFreeVariables(typeVariable, type)){
+        if (isPartOfFreeVariables(typeVariable, type)) {
             throw new InfiniteTypeException(typeVariable, type);
         }
         return new SubstitutionCollection(typeVariable, type);

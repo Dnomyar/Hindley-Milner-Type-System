@@ -8,6 +8,7 @@ import fr.imt.inference.type.Type;
 
 public class Let implements Expression {
 
+
     public final Variable identifier;
     public final Expression definition;
     public final Expression body;

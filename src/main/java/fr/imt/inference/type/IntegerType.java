@@ -1,7 +1,5 @@
 package fr.imt.inference.type;
 
-import fr.imt.inference.SubstitutionCollection;
-
 import java.util.HashSet;
 import java.util.Set;
 

@@ -6,6 +6,8 @@ import fr.imt.inference.AST.Expression;
 import fr.imt.inference.AST.Variable;
 import fr.imt.inference.AST.factory.ExpressionFactory;
 import fr.imt.inference.di.AppInjector;
+import fr.imt.inference.AST.Expression;
+import fr.imt.inference.AST.Variable;
 import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
