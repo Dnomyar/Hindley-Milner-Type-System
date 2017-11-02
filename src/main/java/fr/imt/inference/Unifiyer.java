@@ -55,8 +55,8 @@ public class Unifiyer {
             ArrowType leftArrowType = (ArrowType) constraint.left;
             ArrowType rightArrowType = (ArrowType) constraint.right;
 
-            TypeList arrowType1 = new TypeList(leftArrowType.left, leftArrowType.right);
-            TypeList arrowType2 = new TypeList(rightArrowType.left, rightArrowType.right);
+            TypeCollection arrowType1 = new TypeCollection(leftArrowType.left, leftArrowType.right);
+            TypeCollection arrowType2 = new TypeCollection(rightArrowType.left, rightArrowType.right);
 
             return unifyMany(arrowType1, arrowType2);
         }
@@ -65,7 +65,7 @@ public class Unifiyer {
     }
 
 
-    private SubstitutionCollection unifyMany(TypeList arrowType1, TypeList arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
+    private SubstitutionCollection unifyMany(TypeCollection arrowType1, TypeCollection arrowType2) throws UnificationMismatchException, InfiniteTypeException, UnificationFailureException {
         // both empty
         if (arrowType1.isEmpty() && arrowType2.isEmpty()) {
             return new SubstitutionCollection();
@@ -76,8 +76,8 @@ public class Unifiyer {
         }
 
         // could not be null because of the check before
-        Type headArrowType1 = arrowType1.head();
-        Type headArrowType2 = arrowType2.head();
+        Type headArrowType1 = arrowType1.popHead();
+        Type headArrowType2 = arrowType2.popHead();
 
         SubstitutionCollection headSubstitutionCollection = unify(new Constraint(headArrowType1, headArrowType2)); // todo refactor unify
 

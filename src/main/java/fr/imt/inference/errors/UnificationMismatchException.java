@@ -1,8 +1,8 @@
 package fr.imt.inference.errors;
 
-import fr.imt.inference.TypeList;
+import fr.imt.inference.TypeCollection;
 
 public class UnificationMismatchException extends Throwable {
-    public UnificationMismatchException(TypeList arrowType1, TypeList arrowType2) {
+    public UnificationMismatchException(TypeCollection arrowType1, TypeCollection arrowType2) {
     }
 }
