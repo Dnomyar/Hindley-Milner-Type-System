@@ -2,16 +2,15 @@ package fr.imt.inference;
 
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
-
-import java.util.HashMap;
-import java.util.Map;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.Map;
 
 public class SubstitutionCollection {
 
     private Map<TypeVariable, Type> substitutions;
 
     public SubstitutionCollection() {
-        this.substitutions = new HashMap<>();
+        this.substitutions = HashMap.empty();
     }
 
     public SubstitutionCollection(Map<TypeVariable, Type> substitutions) {
@@ -19,30 +18,15 @@ public class SubstitutionCollection {
     }
 
     public SubstitutionCollection(TypeVariable typeVariable, Type type) {
-        this.substitutions = new HashMap<>();
-        this.substitutions.put(typeVariable, type);
-    }
-
-    public static SubstitutionCollection empty() {
-        return new SubstitutionCollection();
-    }
-
-    public SubstitutionCollection add(TypeVariable typeVariable, Type type) {
-        this.substitutions.put(typeVariable, type);
-        return this;
+        this.substitutions = HashMap.of(typeVariable, type);
     }
 
     public SubstitutionCollection concat(SubstitutionCollection substitutions) {
-        HashMap<TypeVariable, Type> subst = new HashMap<>();
-
-        subst.putAll(this.substitutions);
-        subst.putAll(substitutions.substitutions);
-
-        return new SubstitutionCollection(subst);
+        return new SubstitutionCollection(this.substitutions.merge(substitutions.substitutions));
     }
 
     public Type getOrElse(TypeVariable key, TypeVariable defaultValue) {
-        return this.substitutions.getOrDefault(key, defaultValue);
+        return this.substitutions.getOrElse(key, defaultValue);
     }
 
     @Override
