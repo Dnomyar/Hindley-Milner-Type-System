@@ -2,6 +2,12 @@ package fr.imt.inference.logger;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.IntPredicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Logger {
 
@@ -19,26 +25,24 @@ public class Logger {
 
     private String className;
 
-    public Logger(Class clazz) {
-        this.className = prettyClassName(clazz);
+    public Logger() {
+        this.className = this.prettyClassName(new Exception().getStackTrace()[1].getClassName());
     }
 
-    private String prettyClassName(Class clazz){
-        String fullName = clazz.getName();
-        List<String> exploded = Arrays.asList(fullName.split("\\."));
+    private String prettyClassName(String className){
+        List<String> exploded = Arrays.asList(className.split("\\."));
 
-        StringBuilder stringBuilder = new StringBuilder();
-        int size = exploded.size();
-        for (int i = 0; i < size; i++) {
-            String element = exploded.get(i);
-            if (i < size - 1){
-                stringBuilder.append(element.charAt(0));
-                stringBuilder.append('.');
-            }else{
-                stringBuilder.append(element);
-            }
-        }
-        return stringBuilder.toString();
+        final IntPredicate isLastElement = (int i) -> i == exploded.size() - 1;
+
+        final Stream<ClassNameElement> classNameElementStream = IntStream.range(0, exploded.size())
+                .boxed()
+                .map(element -> new ClassNameElement(isLastElement.test(element), exploded.get(element)));
+
+        List<String> readyToPrintClassNameParts = classNameElementStream
+                .map(ClassNameElement::getPrettyValue)
+                .collect(Collectors.toList());
+
+        return readyToPrintClassNameParts.stream().collect(Collectors.joining("."));
     }
 
     private void printMessage(String level, String color, String message){
@@ -51,5 +55,20 @@ public class Logger {
 
     public void trace(String msg){
         this.printMessage("TRACE", ANSI_BLUE, msg);
+    }
+
+    private class ClassNameElement {
+        public final boolean isLastElement;
+        public final String element;
+
+        public ClassNameElement(boolean isLastElement, String element) {
+
+            this.isLastElement = isLastElement;
+            this.element = element;
+        }
+
+        public String getPrettyValue() {
+            return this.isLastElement ? this.element : String.valueOf(this.element.charAt(0));
+        }
     }
 }

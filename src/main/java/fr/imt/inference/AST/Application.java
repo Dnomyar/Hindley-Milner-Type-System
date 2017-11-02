@@ -10,7 +10,7 @@ import fr.imt.inference.type.Type;
 
 public class Application implements Expression {
 
-    private Logger logger = new Logger(getClass());
+    private Logger logger = new Logger();
 
     public final Expression body;
     public final Expression argument;
