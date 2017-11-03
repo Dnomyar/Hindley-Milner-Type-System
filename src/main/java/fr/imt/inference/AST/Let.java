@@ -2,8 +2,8 @@ package fr.imt.inference.AST;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
-import fr.imt.inference.Generalizer;
 import fr.imt.inference.logger.Logger;
+import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 
 public class Let implements Expression {
@@ -27,7 +27,7 @@ public class Let implements Expression {
 
         logger.debug(":t definition `" + this.definition + "` => " + definitionType);
 
-        Type generalizedType = new Generalizer().generalize(env, definitionType);
+        Scheme generalizedType = definitionType.generalize(env);
 
         env.extend(this.identifier, generalizedType);
 

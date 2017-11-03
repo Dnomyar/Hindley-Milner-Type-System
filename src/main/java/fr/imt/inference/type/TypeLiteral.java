@@ -1,15 +1,15 @@
 package fr.imt.inference.type;
 
 import fr.imt.inference.SubstitutionCollection;
+import io.vavr.collection.HashSet;
+import io.vavr.collection.Set;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public abstract class TypeLiteral implements Type {
 
     @Override
     public Set<TypeVariable> getFreeTypeVariables() {
-        return new HashSet<>();
+        return HashSet.empty();
     }
 
     @Override

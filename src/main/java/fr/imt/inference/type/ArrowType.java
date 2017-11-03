@@ -1,9 +1,8 @@
 package fr.imt.inference.type;
 
 import fr.imt.inference.SubstitutionCollection;
+import io.vavr.collection.Set;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public class ArrowType implements Type {
     public final Type left;
@@ -29,7 +28,7 @@ public class ArrowType implements Type {
         Set<TypeVariable> leftFTV = left.getFreeTypeVariables();
         Set<TypeVariable> rightFTV = right.getFreeTypeVariables();
 
-        Set<TypeVariable> result = new HashSet<>(leftFTV);
+        Set<TypeVariable> result = leftFTV;
         result.addAll(rightFTV);
 
         return result;

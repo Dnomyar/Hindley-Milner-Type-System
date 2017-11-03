@@ -2,6 +2,7 @@ package fr.imt.inference.AST;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
+import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 
 public class Variable implements Expression {

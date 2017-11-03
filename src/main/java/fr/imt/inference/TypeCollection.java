@@ -1,10 +1,12 @@
 package fr.imt.inference;
 
 import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
 import io.vavr.collection.List;
+import io.vavr.collection.Set;
 
 // needs a iface ?
-public class TypeCollection {
+public class TypeCollection implements FreeTypeVariableContainer {
 
     private List<Type> types;
 
@@ -30,5 +32,10 @@ public class TypeCollection {
 
     public TypeCollection applySubstitution(SubstitutionCollection substitutions) {
         return new TypeCollection(this.types.map(type -> type.applySubstitution(substitutions)));
+    }
+
+    @Override
+    public Set<TypeVariable> getFreeTypeVariables() {
+        return types.toSet().flatMap(FreeTypeVariableContainer::getFreeTypeVariables);
     }
 }

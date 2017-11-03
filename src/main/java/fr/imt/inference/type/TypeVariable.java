@@ -1,9 +1,9 @@
 package fr.imt.inference.type;
 
 import fr.imt.inference.SubstitutionCollection;
+import io.vavr.collection.HashSet;
+import io.vavr.collection.Set;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public class TypeVariable implements Type {
     private String identifier;
@@ -25,9 +25,7 @@ public class TypeVariable implements Type {
 
     @Override
     public Set<TypeVariable> getFreeTypeVariables() {
-        Set<TypeVariable> result = new HashSet<>();
-        result.add(this);
-        return result;
+        return HashSet.of(this);
     }
 
     @Override

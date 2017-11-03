@@ -12,6 +12,8 @@ import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.logger.Logger;
+import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
 
 /**
  * @author Clément, Damien, Anaël
@@ -49,13 +51,20 @@ Injector injector = Guice.createInjector(new AppInjector());
 
         ConstraintCollection constraintCollection = new ConstraintCollection();
 
-        System.out.println(expression.infer(new Environment(), constraintCollection));
+        Type rawReturnType = expression.infer(new Environment(), constraintCollection);
+        System.out.println(rawReturnType);
 
         System.out.println("Inference Finished");
 
         System.out.println(constraintCollection);
         try {
-            System.out.println(new Unifiyer().runSolve(constraintCollection));
+            SubstitutionCollection result = new Unifiyer().runSolve(constraintCollection);
+            System.out.println(result);
+            if(rawReturnType instanceof TypeVariable){
+                System.out.println("Expression type : " + result.getOrElse((TypeVariable) rawReturnType, (TypeVariable) rawReturnType));
+            }else {
+                System.out.println("Expression type : " + rawReturnType);
+            }
         } catch (InfiniteTypeException e) {
             e.printStackTrace();
         } catch (UnificationMismatchException e) {
