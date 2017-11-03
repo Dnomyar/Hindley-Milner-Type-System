@@ -23,8 +23,6 @@ public class ConstraintCollection implements Substituable<ConstraintCollection> 
 
     public ConstraintCollection(Deque<Constraint> constraints) {
         this.constraints = constraints;
-    public List<Tuple<Type, Type>> getConstraints(){
-        return this.constraints;
     }
 
     public void add(Type t1, Type t2) {

@@ -16,10 +16,9 @@ public class Lambda implements Expression {
 
     private Logger logger = new Logger();
 
-    public Lambda(Variable identifier, Expression body, FreshVariableProvider freshVariableProvider) {
+    public Lambda(Variable identifier, Expression body) {
         this.identifier = identifier;
         this.body = body;
-        this.freshVariableProvider = freshVariableProvider;
     }
 
     @Override

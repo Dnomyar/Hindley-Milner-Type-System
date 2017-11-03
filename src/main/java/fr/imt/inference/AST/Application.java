@@ -15,19 +15,13 @@ public class Application implements Expression {
     public final Expression argument;
 
     private final Logger logger = new Logger();
-    private ConstraintRepository constraintRepository;
-    private FreshVariableProvider freshVariableProvider;
 
     public Application(
             Expression body,
-            Expression argument,
-            ConstraintRepository constraintRepository,
-            FreshVariableProvider freshVariableProvider
+            Expression argument
     ) {
         this.body = body;
         this.argument = argument;
-        this.constraintRepository = constraintRepository;
-        this.freshVariableProvider = freshVariableProvider;
     }
 
     @Override
@@ -42,7 +36,6 @@ public class Application implements Expression {
 
         logger.debug(":t argument `" + this.argument + "` => " + argumentType);
 
-        TypeVariable returnType = this.freshVariableProvider.provideFresh();
         TypeVariable returnType = new FreshVariable();
 
         constraintCollection.add(bodyType, new ArrowType(argumentType, returnType));

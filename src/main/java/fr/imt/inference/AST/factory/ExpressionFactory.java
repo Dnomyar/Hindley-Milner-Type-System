@@ -3,26 +3,18 @@ package fr.imt.inference.AST.factory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import fr.imt.inference.AST.*;
-import fr.imt.inference.ConstraintRepository;
-import fr.imt.inference.FreshVariableProvider;
 
 @Singleton
 public class ExpressionFactory {
 
-    private FreshVariableProvider freshVariableProvider;
-    private ConstraintRepository constraintRepository;
 
     @Inject
     public ExpressionFactory(
-            FreshVariableProvider freshVariableProvider,
-            ConstraintRepository constraintRepository
     ) {
-        this.freshVariableProvider = freshVariableProvider;
-        this.constraintRepository = constraintRepository;
     }
 
     public Lambda Lamb(Variable variable, Expression expression) {
-        return new Lambda(variable, expression, this.freshVariableProvider);
+        return new Lambda(variable, expression);
     }
 
     public Lambda Lamb(Variable arg1, Variable arg2, Expression expression) {
@@ -34,7 +26,7 @@ public class ExpressionFactory {
     }
 
     public Application App(Expression body, Expression argument) {
-        return new Application(body, argument, this.constraintRepository, this.freshVariableProvider);
+        return new Application(body, argument);
     }
 
     public Application App(Expression body, Expression arg1, Expression arg2) {
