@@ -5,7 +5,6 @@ import fr.imt.inference.Environment;
 import fr.imt.inference.FreshVariable;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.ArrowType;
-import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 
