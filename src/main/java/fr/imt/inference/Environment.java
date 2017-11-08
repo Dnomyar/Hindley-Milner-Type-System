@@ -2,29 +2,40 @@ package fr.imt.inference;
 
 import fr.imt.inference.AST.Expression;
 import fr.imt.inference.AST.Variable;
+import fr.imt.inference.logger.Logger;
+import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
+import io.vavr.collection.HashMap;
+import io.vavr.collection.Map;
+import io.vavr.collection.Set;
 
-import java.util.HashMap;
-import java.util.Map;
 
-public class Environment {
+public class Environment implements FreeTypeVariableContainer{
 
-    private Map<Expression, Type> env;
+    private Logger logger = new Logger();
+    private Map<Expression, Scheme> env;
 
     public Environment() {
-        this.env = new HashMap<>();
+        this.env = HashMap.empty();
     }
 
-
-    public void extend(Expression expression, Type type) {
-        this.env.put(expression, type);
+    public void extend(Expression expression, Scheme scheme) {
+        logger.trace("Extend env: " + expression + " -> " + scheme);
+        this.env = this.env.put(expression, scheme);
     }
 
     public void remove(Expression expression) {
-        this.env.remove(expression);
+        logger.trace("Remove : " + expression + " linked to " + this.env.get(expression).get() + " from env.");
+        this.env = this.env.remove(expression);
     }
 
     public Type get(Variable variable) {
-        return this.env.get(variable);
+        return this.env.get(variable).get().instantiate(this);
+    }
+
+    @Override
+    public Set<TypeVariable> getFreeTypeVariables() {
+        return env.values().toSet().flatMap(Scheme::getFreeTypeVariables);
     }
 }

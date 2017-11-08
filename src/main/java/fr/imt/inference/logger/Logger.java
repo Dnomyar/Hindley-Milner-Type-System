@@ -1,11 +1,8 @@
 package fr.imt.inference.logger;
 
-import java.util.Arrays;
-import java.util.List;
+import io.vavr.collection.List;
+
 import java.util.function.IntPredicate;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Logger {
 
@@ -28,23 +25,23 @@ public class Logger {
     }
 
     private String prettyClassName(String className) {
-        List<String> exploded = Arrays.asList(className.split("\\."));
+        List<String> exploded = List.of(className.split("\\."));
 
         final IntPredicate isLastElement = (int i) -> i == exploded.size() - 1;
 
-        final Stream<ClassNameElement> classNameElementStream = IntStream.range(0, exploded.size())
-                .boxed()
+        final List<ClassNameElement> classNameElementStream = List
+                .range(0, exploded.size())
                 .map(element -> new ClassNameElement(isLastElement.test(element), exploded.get(element)));
 
-        List<String> readyToPrintClassNameParts = classNameElementStream
-                .map(ClassNameElement::getPrettyValue)
-                .collect(Collectors.toList());
+        List<String> readyToPrintClassNameParts = classNameElementStream.map(ClassNameElement::getPrettyValue);
 
-        return readyToPrintClassNameParts.stream().collect(Collectors.joining("."));
+        return readyToPrintClassNameParts.mkString(".");
     }
 
     private void printMessage(String level, String color, String message) {
-        System.out.println(String.format("%s%5s%s %s[%s]%s %s", color, level, ANSI_RESET, ANSI_BLACK_BOLD_BRIGHT, this.className, ANSI_RESET, message));
+        String spaces = List.range(0, 28 - this.className.length()).map(e -> " ").mkString("");
+
+        System.out.println(String.format("%s%5s%s %s[%s]%s %s %s", color, level, ANSI_RESET, ANSI_BLACK_BOLD_BRIGHT, this.className, ANSI_RESET, spaces, message));
     }
 
     public void debug(String msg) {

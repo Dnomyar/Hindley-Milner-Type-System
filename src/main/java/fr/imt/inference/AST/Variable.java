@@ -1,6 +1,8 @@
 package fr.imt.inference.AST;
 
+import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
+import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 
 public class Variable implements Expression {
@@ -11,10 +13,9 @@ public class Variable implements Expression {
     }
 
     @Override
-    public Type infer(Environment env) {
+    public Type infer(Environment env, ConstraintCollection constraintCollection) {
         return env.get(this);
     }
-
 
     @Override
     public String toString() {

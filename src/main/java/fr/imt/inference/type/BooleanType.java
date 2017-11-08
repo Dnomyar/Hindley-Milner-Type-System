@@ -5,4 +5,15 @@ public class BooleanType extends TypeLiteral {
     public String toString() {
         return "Bool";
     }
+
+    @Override
+    public boolean isTypeVariable() {
+        return false;
+    }
+
+    @Override
+    public boolean isArrow() {
+        return false;
+    }
+
 }
