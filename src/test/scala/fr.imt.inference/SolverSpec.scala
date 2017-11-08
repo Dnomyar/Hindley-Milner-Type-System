@@ -30,7 +30,7 @@ class SolverSpec extends WordSpec with Matchers {
       val expression = App(lambda, identityX)
 
       val exceptionMessage = "UnificationFailureException : Cannot unify type `Bool` with type `Int`"
-      the [UnificationFailureException] thrownBy infer(expression) should have message exceptionMessage
+      the[UnificationFailureException] thrownBy infer(expression) should have message exceptionMessage
     }
   }
 
@@ -55,8 +55,8 @@ class SolverSpec extends WordSpec with Matchers {
 
       val expressionType = infer(expression)
 
-      expressionType shouldBe an [IntegerType]
-      expressionType should not be a [BooleanType]
+      expressionType shouldBe an[IntegerType]
+      expressionType should not be a[BooleanType]
     }
   }
 

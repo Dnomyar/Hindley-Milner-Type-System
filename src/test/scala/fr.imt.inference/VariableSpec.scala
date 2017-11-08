@@ -1,18 +1,19 @@
 package fr.imt.inference
 
-import fr.imt.inference.AST.factory.ExpressionFactory.{Lamb, Var}
+import fr.imt.inference.AST.factory.ExpressionFactory.Var
 import org.scalatest.{Matchers, WordSpec}
 
 class VariableSpec extends WordSpec with Matchers {
 
-  "The Variable's equal method" should {
-    "returns true with another Variable with the same name" in {
-      val var1 = Var("a").hashCode()
-      val var2 = Var("a").hashCode()
-      print(var1, var2) // (2065857933,1914301543)
-      Var("a") == Var("a")
+  "A Variable expression" should {
+    "be equals to another Variable with the same name" in {
+      Var("a") should equal(Var("a"))
+      Var("a") should not equal Var("b")
+    }
+
+    "raise an exception when infer with an empty Environment" in {
+      an[NoSuchElementException] should be thrownBy Var("a").infer(new Environment, new ConstraintCollection)
     }
   }
-
 
 }
