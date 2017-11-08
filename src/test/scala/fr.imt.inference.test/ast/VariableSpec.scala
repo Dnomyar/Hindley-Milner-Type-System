@@ -1,6 +1,7 @@
-package fr.imt.inference
+package fr.imt.inference.test.ast
 
-import fr.imt.inference.AST.factory.ExpressionFactory.Var
+import fr.imt.inference.ast.factory.ExpressionFactory.Var
+import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
 class VariableSpec extends WordSpec with Matchers {

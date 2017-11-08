@@ -4,7 +4,7 @@ import fr.imt.inference.SubstitutionCollection;
 import io.vavr.collection.Set;
 
 
-public class ArrowType implements Type {
+public class ArrowType extends Generalizable implements Type {
     public final Type left;
     public final Type right;
 

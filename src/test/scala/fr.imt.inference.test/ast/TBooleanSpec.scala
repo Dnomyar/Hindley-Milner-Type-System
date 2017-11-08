@@ -1,7 +1,8 @@
-package fr.imt.inference
+package fr.imt.inference.test.ast
 
-import fr.imt.inference.AST.factory.ExpressionFactory.Bool
+import fr.imt.inference.ast.factory.ExpressionFactory.Bool
 import fr.imt.inference.`type`.BooleanType
+import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
 class TBooleanSpec extends WordSpec with Matchers {

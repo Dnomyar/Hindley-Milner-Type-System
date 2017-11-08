@@ -1,6 +1,6 @@
-package fr.imt.inference.AST.factory;
+package fr.imt.inference.ast.factory;
 
-import fr.imt.inference.AST.*;
+import fr.imt.inference.ast.*;
 
 public class ExpressionFactory {
 

@@ -1,4 +1,4 @@
-package fr.imt.inference
+package fr.imt.inference.test.ast
 
 import org.scalatest.{Matchers, WordSpec}
 

@@ -1,7 +1,8 @@
-package fr.imt.inference
+package fr.imt.inference.test.ast
 
-import fr.imt.inference.AST.factory.ExpressionFactory.Int
+import fr.imt.inference.ast.factory.ExpressionFactory.Int
 import fr.imt.inference.`type`.IntegerType
+import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
 class TIntegerSpec extends WordSpec with Matchers {

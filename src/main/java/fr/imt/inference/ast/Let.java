@@ -1,4 +1,4 @@
-package fr.imt.inference.AST;
+package fr.imt.inference.ast;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;

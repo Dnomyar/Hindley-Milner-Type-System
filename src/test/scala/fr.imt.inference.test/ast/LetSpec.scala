@@ -1,7 +1,8 @@
-package fr.imt.inference
+package fr.imt.inference.testtest.ast
 
-import fr.imt.inference.AST.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Var}
+import fr.imt.inference.ast.factory.ExpressionFactory.{Let, Var, Bool, App, Lamb, Int}
 import fr.imt.inference.`type`.{IntegerType, TypeVariable}
+import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
 class LetSpec extends WordSpec with Matchers {

@@ -1,7 +1,7 @@
 package fr.imt.inference;
 
-import fr.imt.inference.AST.Expression;
-import fr.imt.inference.AST.Variable;
+import fr.imt.inference.ast.Expression;
+import fr.imt.inference.ast.Variable;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;

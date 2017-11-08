@@ -1,9 +1,10 @@
-package fr.imt.inference
+package fr.imt.inference.test.ast
 
-import fr.imt.inference.AST.Expression
-import fr.imt.inference.AST.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Var}
+import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Var}
 import fr.imt.inference.`type`.{BooleanType, IntegerType, Type, TypeVariable}
 import fr.imt.inference.errors.UnificationFailureException
+import fr.imt.inference.{ConstraintCollection, Environment, Unifiyer}
+import fr.imt.inference.ast.{Expression}
 import org.scalatest.{Matchers, WordSpec}
 
 class SolverSpec extends WordSpec with Matchers {

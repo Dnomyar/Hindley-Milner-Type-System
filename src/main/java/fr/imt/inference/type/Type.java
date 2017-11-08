@@ -13,7 +13,7 @@ import io.vavr.collection.Set;
  * - arrow
  * - type variable
  */
-public interface Type extends Substituable<Type>, FreeTypeVariableContainer, Generalizable {
+public interface Type extends Substituable<Type>, FreeTypeVariableContainer {
     Logger logger = new Logger();
 
     boolean isTypeVariable();
@@ -22,11 +22,12 @@ public interface Type extends Substituable<Type>, FreeTypeVariableContainer, Gen
 
     Boolean containsTheFreeVariable(TypeVariable freeTypeVariable);
 
-    default Scheme generalize(Environment environment) {
-        Set<TypeVariable> typeFTV = this.getFreeTypeVariables();
-        Set<TypeVariable> envFTV = environment.getFreeTypeVariables();
-        logger.debug("Generalizing... | typeFTV => " + typeFTV + " // envFTV => " + envFTV);
-        Set<TypeVariable> genericTypeVariables = typeFTV.diff(envFTV);
-        return new Scheme(genericTypeVariables, this);
-    }
+    /**
+     * Convert a type T into a type S by closing overall free type variables in a type scheme.
+     *
+     * @param environment all the variables
+     *
+     * @return a Schema containing all the free variables
+     */
+    Scheme generalize(Environment environment);
 }

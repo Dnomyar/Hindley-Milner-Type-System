@@ -1,7 +1,7 @@
 package fr.imt.inference;
 
-import fr.imt.inference.AST.Expression;
-import fr.imt.inference.AST.Variable;
+import fr.imt.inference.ast.Expression;
+import fr.imt.inference.ast.Variable;
 import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
@@ -9,7 +9,7 @@ import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 
-import static fr.imt.inference.AST.factory.ExpressionFactory.*;
+import static fr.imt.inference.ast.factory.ExpressionFactory.*;
 
 /**
  * @author Clément, Damien, Anaël

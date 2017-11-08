@@ -9,7 +9,7 @@ import io.vavr.collection.Set;
 
 import java.util.function.Function;
 
-public class Scheme implements FreeTypeVariableContainer, Instantiable {
+public class Scheme implements FreeTypeVariableContainer, TypeInstantiator {
 
     private Set<TypeVariable> genericTypeVariables;
     private Type type;

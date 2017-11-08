@@ -5,7 +5,7 @@ import io.vavr.collection.HashSet;
 import io.vavr.collection.Set;
 
 
-public class TypeVariable implements Type {
+public class TypeVariable extends Generalizable implements Type {
     public final String identifier;
 
     public TypeVariable(String identifier) {
