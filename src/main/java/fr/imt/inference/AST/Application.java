@@ -43,6 +43,20 @@ public class Application implements Expression {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof Application
+                && ((Application) o).body.equals(this.body)
+                && ((Application) o).argument.equals(this.argument);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = body != null ? body.hashCode() : 0;
+        result = 31 * result + (argument != null ? argument.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "(" + this.body + " " + this.argument + ")";
     }

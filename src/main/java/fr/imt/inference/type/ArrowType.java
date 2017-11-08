@@ -14,11 +14,6 @@ public class ArrowType implements Type {
     }
 
     @Override
-    public String toString() {
-        return this.left + " -> " + this.right;
-    }
-
-    @Override
     public boolean isTypeVariable() {
         return false;
     }
@@ -51,4 +46,17 @@ public class ArrowType implements Type {
 
         return new ArrowType(newLeft, newRight);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ArrowType
+                && ((ArrowType) o).left.equals(this.left)
+                && ((ArrowType) o).right.equals(this.right);
+    }
+
+    @Override
+    public String toString() {
+        return this.left + " -> " + this.right;
+    }
+
 }

@@ -21,6 +21,20 @@ public class Constraint implements Substituable<Constraint> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof Constraint
+                && ((Constraint) o).left.equals(this.left)
+                && ((Constraint) o).right.equals(this.right);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = left != null ? left.hashCode() : 0;
+        result = 31 * result + (right != null ? right.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "(" + left + ", " + right + ")";
     }

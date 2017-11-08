@@ -40,6 +40,21 @@ public class Let implements Expression {
         return bodyType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Let
+                && ((Let) o).identifier.equals(this.identifier)
+                && ((Let) o).definition.equals(this.definition)
+                && ((Let) o).body.equals(this.body);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier != null ? identifier.hashCode() : 0;
+        result = 31 * result + (definition != null ? definition.hashCode() : 0);
+        result = 31 * result + (body != null ? body.hashCode() : 0);
+        return result;
+    }
 
     @Override
     public String toString() {

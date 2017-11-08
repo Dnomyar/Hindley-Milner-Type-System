@@ -16,15 +16,15 @@ public class Variable implements Expression {
         return env.get(this);
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        return o instanceof Variable && ((Variable) o).name.equals(this.name);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return name != null ? name.hashCode() : 0;
-//    }
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Variable && ((Variable) o).name.equals(this.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 
     @Override
     public String toString() {

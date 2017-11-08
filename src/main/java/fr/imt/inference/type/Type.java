@@ -14,20 +14,19 @@ import io.vavr.collection.Set;
  * - type variable
  */
 public interface Type extends Substituable<Type>, FreeTypeVariableContainer, Generalizable {
+    Logger logger = new Logger();
+
     boolean isTypeVariable();
 
     boolean isArrow();
 
     Boolean containsTheFreeVariable(TypeVariable freeTypeVariable);
 
-
-    Logger logger = new Logger();
-
-    default Scheme generalize(Environment environment){
+    default Scheme generalize(Environment environment) {
         Set<TypeVariable> typeFTV = this.getFreeTypeVariables();
         Set<TypeVariable> envFTV = environment.getFreeTypeVariables();
         logger.debug("Generalizing... | typeFTV => " + typeFTV + " // envFTV => " + envFTV);
         Set<TypeVariable> genericTypeVariables = typeFTV.diff(envFTV);
-        return new Scheme(genericTypeVariables,this);
+        return new Scheme(genericTypeVariables, this);
     }
 }

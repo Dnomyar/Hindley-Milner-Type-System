@@ -11,7 +11,7 @@ import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
 
-public class Environment implements FreeTypeVariableContainer{
+public class Environment implements FreeTypeVariableContainer {
 
     private Logger logger = new Logger();
     private Map<Expression, Scheme> env;
