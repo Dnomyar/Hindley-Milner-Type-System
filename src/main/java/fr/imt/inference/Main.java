@@ -1,6 +1,7 @@
 package fr.imt.inference;
 
 import fr.imt.inference.ast.Expression;
+import fr.imt.inference.ast.Operator;
 import fr.imt.inference.ast.Variable;
 import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
@@ -20,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Variable F = Var("f");
+        /*Variable F = Var("f");
         Variable a = Var("a");
         Variable b = Var("b");
         Variable x = Var("x");
@@ -39,7 +40,10 @@ public class Main {
 
 
         Expression identityX = Lamb(x, x);
-        Expression expression = Let(F, identityX, application);
+        Expression expression = Let(F, identityX, application);*/
+
+        Variable a = Var("a");
+        Expression expression = Lamb(a, Ope(a, Bool(true), Operator.PLUS));
 
         logger.debug(expression.toString());
         logger.debug("");
