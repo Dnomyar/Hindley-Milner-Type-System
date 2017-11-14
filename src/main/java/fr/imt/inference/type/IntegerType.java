@@ -5,4 +5,14 @@ public class IntegerType extends TypeLiteral {
     public String toString() {
         return "Int";
     }
+
+    @Override
+    public boolean isTypeVariable() {
+        return false;
+    }
+
+    @Override
+    public boolean isArrow() {
+        return false;
+    }
 }
