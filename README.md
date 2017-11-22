@@ -21,7 +21,7 @@ Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un gramm
     <Expression> <Expression>
     
 <Lambda> ::= 
-    '(\' <Variable> '->' <Expression> ')'
+    '(\' (<Variable>)+ '->' <Expression> ')'
     
 <Let> ::= 
     'let' <Variable> '=' <Expression> 'in' <Expression>
