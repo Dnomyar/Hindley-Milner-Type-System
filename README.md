@@ -18,13 +18,13 @@ Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un gramm
     <Application> | <Lambda> | <Let> | <Literal>
     
 <Application> ::= 
-    <Expression> <Expression>
+    (<Program> | <Identifier>) <Program>
     
 <Lambda> ::= 
-    '(\' (<Variable>)+ '->' <Expression> ')'
+    '\' (<Identifier>)+ '->' <Program>
     
 <Let> ::= 
-    'let' <Variable> '=' <Expression> 'in' <Expression>
+    'let' <Identifier> '=' <Program> 'in' <Program>
     
 <Literal> ::= 
     <BoolLiteral> | <IntLiteral> 
@@ -35,6 +35,37 @@ Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un gramm
 <IntLiteral> ::= 
     ('1'..'9')('0'..'9')+
     
-<Variable> ::= 
+<Identifier> ::= 
     ('a'..'z' | 'A'..'Z' | '_')('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
 ``` 
+
+Here are some example of expression that can be parsed :
+```
+let f = (\x -> x) in (\a b -> b) (f True) (f 1)
+
+    f => Identifier
+    
+    (\x -> x) => Program
+        \x -> x => Lambda
+            x => Identifier
+            x => Identifier
+            
+    (\a b -> b) (f True) (f 1) => Application
+        (\a b -> b) (f True) => Application
+            (\a b -> b) => Program
+                \a b -> b => Lambda
+                    a => Identifier
+                    b => Identifier
+                    b => Identifier
+            (f True) => Program
+                f True => Application
+                    f => Identifier
+                    True => BoolLiteral
+                
+        (f 1) => Program
+            f 1 => Application
+                f => Identifier
+                1 => IntLiteral
+        
+    
+```
