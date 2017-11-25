@@ -2,13 +2,15 @@ package fr.imt.inference;
 
 import fr.imt.inference.ast.Expression;
 import fr.imt.inference.ast.Variable;
-import fr.imt.inference.logger.Logger;
+import fr.imt.logger.Logger;
 import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
 import io.vavr.collection.Set;
+
+import java.util.NoSuchElementException;
 
 
 public class Environment implements FreeTypeVariableContainer {
@@ -31,7 +33,11 @@ public class Environment implements FreeTypeVariableContainer {
     }
 
     public Type get(Variable variable) {
-        return this.env.get(variable).get().instantiate(this);
+        if (this.env.containsKey(variable)) {
+            return this.env.get(variable).get().instantiate(this);
+        }
+
+        throw new NoSuchElementException("Variable `" + variable + "` not found");
     }
 
     @Override
