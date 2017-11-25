@@ -3,7 +3,7 @@ package fr.imt.inference;
 import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
-import fr.imt.inference.logger.Logger;
+import fr.imt.logger.Logger;
 import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;

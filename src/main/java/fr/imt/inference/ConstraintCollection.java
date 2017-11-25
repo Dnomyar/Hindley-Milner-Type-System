@@ -1,6 +1,6 @@
 package fr.imt.inference;
 
-import fr.imt.inference.logger.Logger;
+import fr.imt.logger.Logger;
 import fr.imt.inference.type.Type;
 
 import java.util.Deque;
