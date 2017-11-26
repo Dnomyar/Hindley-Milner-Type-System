@@ -64,5 +64,9 @@ Contenu :
 
 ## LOG Semaine nº46
 
- - Travail sur la grammaire du langage 
+ - Travail sur la grammaire du langage
+
+## LOG Semaine nº47
+
+ - Implémentation d'un parseur, d'un REPL minimal, et branchement avec l'algorithme d'inférence
  
