@@ -57,7 +57,7 @@ public class ExpressionParser implements Parsable<Expression> {
                         space(
                             string("->").then(
                                 space(
-                                    choice(expression, variable).bind(body ->
+                                    choice(variable, expression).bind(body ->
                                         space(
                                             retn(toLambda(ids, body))))))))));
     }
@@ -97,7 +97,7 @@ public class ExpressionParser implements Parsable<Expression> {
         return
             string("app").then(
                 space(
-                    choice(expression, variable).bind(body ->
+                    choice(variable, expression).bind(body ->
                         space(
                             expression.bind(arg ->
                                 retn(new Application(body, arg)))))));
