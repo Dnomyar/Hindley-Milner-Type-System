@@ -2,6 +2,7 @@ package fr.imt.parser;
 
 import fr.imt.inference.ast.*;
 import io.vavr.control.Either;
+import org.javafp.data.IList;
 import org.javafp.data.Unit;
 import org.javafp.parsecj.Parser;
 import org.javafp.parsecj.input.Input;
@@ -44,19 +45,30 @@ public class ExpressionParser implements Parsable<Expression> {
     }
 
     /**
-     * \ <var> -> <exp | var>
+     * \ <var+> -> <exp | var>
      */
     private static Parser<Character, Lambda> lambdaParser(Parser<Character, Variable> variable, Parser<Character, Expression> expression) {
         return
             chr('\\').then(
                 space(
                     variable.bind(id ->
+                        space(retn(id))
+                    ).many().bind(ids ->
                         space(
                             string("->").then(
                                 space(
                                     choice(expression, variable).bind(body ->
                                         space(
-                                            retn(new Lambda(id, body))))))))));
+                                            retn(toLambda(ids, body))))))))));
+    }
+
+    /**
+     * Helper to create Lambda expression from multiple identifiers
+     */
+    private static Lambda toLambda(IList<Variable> ids, Expression body) {
+        return (ids.size() == 1)
+                ? new Lambda(ids.head(), body)
+                : new Lambda(ids.head(), toLambda(ids.tail(), body));
     }
 
     /**
