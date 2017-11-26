@@ -1,19 +1,16 @@
 package fr.imt.inference;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import fr.imt.inference.AST.Expression;
-import fr.imt.inference.AST.Variable;
-import fr.imt.inference.AST.factory.ExpressionFactory;
-import fr.imt.inference.di.AppInjector;
-import fr.imt.inference.AST.Expression;
-import fr.imt.inference.AST.Variable;
+import fr.imt.inference.ast.Expression;
+import fr.imt.inference.ast.Operator;
+import fr.imt.inference.ast.Variable;
 import fr.imt.inference.errors.InfiniteTypeException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
+
+import static fr.imt.inference.ast.factory.ExpressionFactory.*;
 
 /**
  * @author Clément, Damien, Anaël
@@ -23,28 +20,30 @@ public class Main {
     private final static Logger logger = new Logger();
 
     public static void main(String[] args) {
-Injector injector = Guice.createInjector(new AppInjector());
 
-        ExpressionFactory ef = injector.getInstance(ExpressionFactory.class);        Variable F = ef.Var("f");
-        Variable a = ef.Var("a");
-        Variable b = ef.Var("b");
-        Variable x = ef.Var("x");
+        /*Variable F = Var("f");
+        Variable a = Var("a");
+        Variable b = Var("b");
+        Variable x = Var("x");
 
         // (\a b -> b)
-        Expression snd = ef.Lamb(a, b, b);
+        Expression snd = Lamb(a, b, b);
 
         //(F True)
-        Expression FTrue = ef.App(F, ef.Bool(true));
+        Expression FTrue = App(F, Bool(true));
 
         // (F 1)
-        Expression F1 = ef.App(F, ef.Int(1));
+        Expression F1 = App(F, Int(1));
 
         // (\a b -> b) (F True) (F 1)
-        Expression application = ef.App(snd, FTrue, F1);
+        Expression application = App(snd, FTrue, F1);
 
 
-        Expression identityX = ef.Lamb(x, x);
-        Expression expression = ef.Let(F, identityX, application);
+        Expression identityX = Lamb(x, x);
+        Expression expression = Let(F, identityX, application);*/
+
+        Variable a = Var("a");
+        Expression expression = Lamb(a, Ope(a, Bool(true), Operator.PLUS));
 
         logger.debug(expression.toString());
         logger.debug("");

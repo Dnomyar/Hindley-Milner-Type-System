@@ -1,7 +1,21 @@
 package fr.imt.inference.type;
 
 import fr.imt.inference.Environment;
+import io.vavr.collection.Set;
 
-public interface Generalizable {
-    Scheme generalize(Environment environment);
+/**
+ * Not an interface as it cannot be used outside of a type
+ * but it represents the way we can generalize from a type
+ */
+public abstract class Generalizable implements Type {
+
+    @Override
+    public Scheme generalize(Environment environment) {
+        Set<TypeVariable> typeFTV = this.getFreeTypeVariables();
+        Set<TypeVariable> envFTV = environment.getFreeTypeVariables();
+        logger.debug("Generalizing... | typeFTV => " + typeFTV + " // envFTV => " + envFTV);
+        Set<TypeVariable> notEnvironmentBoundedTypeVariables = typeFTV.diff(envFTV);
+
+        return new Scheme(notEnvironmentBoundedTypeVariables, this);
+    }
 }

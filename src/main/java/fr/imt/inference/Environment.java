@@ -1,7 +1,7 @@
 package fr.imt.inference;
 
-import fr.imt.inference.AST.Expression;
-import fr.imt.inference.AST.Variable;
+import fr.imt.inference.ast.Expression;
+import fr.imt.inference.ast.Variable;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
@@ -11,7 +11,7 @@ import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
 
-public class Environment implements FreeTypeVariableContainer{
+public class Environment implements FreeTypeVariableContainer {
 
     private Logger logger = new Logger();
     private Map<Expression, Scheme> env;

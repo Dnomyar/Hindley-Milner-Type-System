@@ -5,7 +5,7 @@ import io.vavr.collection.HashSet;
 import io.vavr.collection.Set;
 
 
-public abstract class TypeLiteral implements Type {
+public abstract class TypeLiteral extends Generalizable implements Type {
 
     @Override
     public Set<TypeVariable> getFreeTypeVariables() {

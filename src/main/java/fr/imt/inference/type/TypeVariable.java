@@ -5,17 +5,11 @@ import io.vavr.collection.HashSet;
 import io.vavr.collection.Set;
 
 
-public class TypeVariable implements Type {
-    private String identifier;
+public class TypeVariable extends Generalizable implements Type {
+    public final String identifier;
 
     public TypeVariable(String identifier) {
         this.identifier = identifier;
-    }
-
-
-    @Override
-    public String toString() {
-        return identifier;
     }
 
     @Override
@@ -41,6 +35,21 @@ public class TypeVariable implements Type {
     @Override
     public Type applySubstitution(SubstitutionCollection substitutions) {
         return substitutions.getOrElse(this, this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TypeVariable && ((TypeVariable) o).identifier.equals(this.identifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return identifier != null ? identifier.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return identifier;
     }
 
 }

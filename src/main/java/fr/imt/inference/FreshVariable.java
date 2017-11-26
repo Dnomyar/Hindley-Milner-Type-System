@@ -12,4 +12,9 @@ public class FreshVariable extends TypeVariable {
     public FreshVariable() {
         this("t" + counter++);
     }
+
+    // Used only for unit testing
+    public static void reset() {
+        counter = 0;
+    }
 }

@@ -5,12 +5,11 @@ import fr.imt.inference.FreeTypeVariableContainer;
 import fr.imt.inference.FreshVariable;
 import fr.imt.inference.SubstitutionCollection;
 import io.vavr.collection.HashSet;
-import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
 import java.util.function.Function;
 
-public class Scheme implements FreeTypeVariableContainer, Instantiable {
+public class Scheme implements FreeTypeVariableContainer, TypeInstantiator {
 
     private Set<TypeVariable> genericTypeVariables;
     private Type type;

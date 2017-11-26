@@ -30,6 +30,10 @@ public class ConstraintCollection implements Substituable<ConstraintCollection> 
         constraints.add(new Constraint(t1, t2));
     }
 
+    public int size() {
+        return constraints.size();
+    }
+
     public boolean isEmpty() {
         return constraints.isEmpty();
     }

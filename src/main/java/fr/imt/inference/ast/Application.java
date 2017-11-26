@@ -1,11 +1,10 @@
-package fr.imt.inference.AST;
+package fr.imt.inference.ast;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
 import fr.imt.inference.FreshVariable;
 import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.ArrowType;
-import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 
@@ -41,6 +40,20 @@ public class Application implements Expression {
         constraintCollection.add(bodyType, new ArrowType(argumentType, returnType));
 
         return returnType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Application
+                && ((Application) o).body.equals(this.body)
+                && ((Application) o).argument.equals(this.argument);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = body != null ? body.hashCode() : 0;
+        result = 31 * result + (argument != null ? argument.hashCode() : 0);
+        return result;
     }
 
     @Override

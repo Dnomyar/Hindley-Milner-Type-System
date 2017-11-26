@@ -1,4 +1,4 @@
-package fr.imt.inference.AST;
+package fr.imt.inference.ast;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
@@ -15,6 +15,16 @@ public class TInteger implements Literal {
     @Override
     public Type infer(Environment env, ConstraintCollection constraintCollection) {
         return new IntegerType();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TInteger && ((TInteger) o).value.equals(this.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package fr.imt.inference.AST;
+package fr.imt.inference.ast;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
@@ -36,6 +36,20 @@ public class Lambda implements Expression {
         env.remove(this.identifier);
 
         return new ArrowType(resultType, bodyType);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Lambda &&
+                ((Lambda) o).identifier.equals(this.identifier) &&
+                ((Lambda) o).body.equals(this.body);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier != null ? identifier.hashCode() : 0;
+        result = 31 * result + (body != null ? body.hashCode() : 0);
+        return result;
     }
 
     @Override

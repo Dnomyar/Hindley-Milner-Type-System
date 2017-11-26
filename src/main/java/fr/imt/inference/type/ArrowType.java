@@ -4,18 +4,13 @@ import fr.imt.inference.SubstitutionCollection;
 import io.vavr.collection.Set;
 
 
-public class ArrowType implements Type {
+public class ArrowType extends Generalizable implements Type {
     public final Type left;
     public final Type right;
 
     public ArrowType(Type left, Type right) {
         this.left = left;
         this.right = right;
-    }
-
-    @Override
-    public String toString() {
-        return this.left + " -> " + this.right;
     }
 
     @Override
@@ -51,4 +46,17 @@ public class ArrowType implements Type {
 
         return new ArrowType(newLeft, newRight);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ArrowType
+                && ((ArrowType) o).left.equals(this.left)
+                && ((ArrowType) o).right.equals(this.right);
+    }
+
+    @Override
+    public String toString() {
+        return this.left + " -> " + this.right;
+    }
+
 }
