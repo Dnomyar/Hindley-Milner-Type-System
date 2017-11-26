@@ -1,4 +1,4 @@
-package fr.imt.inference.test.ast
+package fr.imt.test.inference.ast
 
 import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Var}
 import fr.imt.inference.`type`.{BooleanType, IntegerType, Type, TypeVariable}

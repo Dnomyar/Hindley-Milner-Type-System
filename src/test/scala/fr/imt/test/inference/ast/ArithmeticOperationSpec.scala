@@ -1,4 +1,4 @@
-package fr.imt.inference.test.ast
+package fr.imt.test.inference.ast
 
 import fr.imt.inference.`type`.IntegerType
 import fr.imt.inference.ast.Operator
