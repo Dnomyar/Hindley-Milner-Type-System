@@ -1,6 +1,7 @@
 package fr.imt.test.inference.ast
 
 import fr.imt.inference.ast.factory.ExpressionFactory.Var
+import fr.imt.inference.errors.NonexistentVariableException
 import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
@@ -13,7 +14,7 @@ class VariableSpec extends WordSpec with Matchers {
     }
 
     "raise an exception when infer with an empty Environment" in {
-      an[NoSuchElementException] should be thrownBy Var("a").infer(new Environment, new ConstraintCollection)
+      an[NonexistentVariableException] should be thrownBy Var("a").infer(new Environment, new ConstraintCollection)
     }
   }
 
