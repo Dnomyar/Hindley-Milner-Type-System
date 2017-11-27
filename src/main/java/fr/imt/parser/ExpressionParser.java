@@ -1,6 +1,7 @@
 package fr.imt.parser;
 
 import fr.imt.inference.ast.*;
+import io.vavr.collection.List;
 import io.vavr.control.Either;
 import org.javafp.data.IList;
 import org.javafp.data.Unit;
@@ -26,20 +27,49 @@ public class ExpressionParser implements Parsable<Expression> {
             );
     }
 
+    /**
+     * Alphanumeric string
+     */
     private static Parser<Character, Variable> variableParser() {
         return alphaNum.bind(var -> retn(new Variable(var)));
     }
 
     /**
+     * Int
+     */
+    private static Parser<Character, TInteger> integerParser() {
+        return intr.bind(intL -> retn(new TInteger(intL)));
+    }
+
+    /**
      * Int | True | False
      */
-    private static Parser<Character, Literal> literalParser() {
-        Parser<Character, TInteger> intLit = intr.bind(intL -> retn(new TInteger(intL)));
-        Parser<Character, TBoolean> boolTrueLit = string("True").then(retn(new TBoolean(true)));
-        Parser<Character, TBoolean> boolFalseLit = string("False").then(retn(new TBoolean(false)));
-        Parser<Character, TBoolean> boolLit = choice(boolTrueLit, boolFalseLit);
+    private static Parser<Character, Literal> literalParser(Parser<Character, TInteger> integer) {
+        Parser<Character, TBoolean> boolTrue = string("True").then(retn(new TBoolean(true)));
+        Parser<Character, TBoolean> boolFalse = string("False").then(retn(new TBoolean(false)));
+        Parser<Character, TBoolean> bool = choice(boolTrue, boolFalse);
 
-        return choice(boolLit, intLit);
+        return choice(bool, integer);
+    }
+
+    /**
+     * + | - | * | /
+     */
+    private static List<Parser<Character, Operator>> arithmeticOperatorParsers() {
+        return Operator.all().map(operator -> chr(operator.toChar()).bind(c -> retn(operator)));
+    }
+
+    /**
+     * <Int> <Operator> <Int>
+     */
+    private static Parser<Character, BinaryArithmeticOperation> arithmeticOperationParser(Parser<Character, TInteger> integer, Parser<Character, Variable> variable) {
+        return
+            choice(integer, variable).bind(left ->
+                space(
+                    choice(IList.of(arithmeticOperatorParsers())).bind(operator ->
+                        space(
+                            choice(integer, variable).bind(right ->
+                                retn(new BinaryArithmeticOperation(left, right, operator)))))));
     }
 
     /**
@@ -107,11 +137,13 @@ public class ExpressionParser implements Parsable<Expression> {
         // Build a basic expression (i.e. without parentheses)
         Parser.Ref<Character, Expression> basicExpression = Parser.ref();
         Parser<Character, Variable> variable = variableParser();
-        Parser<Character, Literal> literal = literalParser();
+        Parser<Character, TInteger> integer = integerParser();
+        Parser<Character, Literal> literal = literalParser(integer);
+        Parser<Character, BinaryArithmeticOperation> arithmeticOperation = attempt(arithmeticOperationParser(integer, variable));
         Parser<Character, Lambda> lambda = lambdaParser(variable, expression);
         Parser<Character, Let> let = letParser(variable, expression);
         Parser<Character, Application> app = appParser(variable, expression);
-        basicExpression.set(choice(literal, lambda, let, app));
+        basicExpression.set(choice(arithmeticOperation, literal, lambda, let, app));
 
         // Build a parenthesized expression (i.e. expression with parentheses)
         Parser<Character, Expression> parenthesizedExpression =
