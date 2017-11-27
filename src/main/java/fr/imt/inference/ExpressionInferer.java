@@ -2,13 +2,12 @@ package fr.imt.inference;
 
 import fr.imt.inference.ast.Expression;
 import fr.imt.inference.errors.InfiniteTypeException;
+import fr.imt.inference.errors.NonexistentVariableException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 import io.vavr.control.Either;
-
-import java.util.NoSuchElementException;
 
 public class ExpressionInferer implements Inferable<Expression, Type> {
 
@@ -30,7 +29,7 @@ public class ExpressionInferer implements Inferable<Expression, Type> {
             UnificationMismatchException |
             UnificationFailureException |
             InfiniteTypeException |
-            NoSuchElementException e
+            NonexistentVariableException e
         ) {
             return Either.left(e.getMessage());
         }
