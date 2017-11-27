@@ -1,6 +1,6 @@
 package fr.imt.test.parser
 
-import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Var, Let}
+import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Var}
 import fr.imt.parser.ExpressionParser
 import org.scalatest.{BeforeAndAfter, Matchers, WordSpec}
 

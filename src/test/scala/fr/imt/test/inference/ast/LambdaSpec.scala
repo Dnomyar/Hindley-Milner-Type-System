@@ -1,7 +1,7 @@
 package fr.imt.test.inference.ast
 
-import fr.imt.inference.ast.factory.ExpressionFactory.{Bool, Int, Lamb, Var}
 import fr.imt.inference.`type`.ArrowType
+import fr.imt.inference.ast.factory.ExpressionFactory.{Bool, Int, Lamb, Var}
 import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 

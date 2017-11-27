@@ -7,9 +7,7 @@ import org.javafp.data.Unit;
 import org.javafp.parsecj.Parser;
 import org.javafp.parsecj.input.Input;
 
-import static org.javafp.parsecj.Combinators.choice;
-import static org.javafp.parsecj.Combinators.eof;
-import static org.javafp.parsecj.Combinators.retn;
+import static org.javafp.parsecj.Combinators.*;
 import static org.javafp.parsecj.Text.*;
 
 public class ExpressionParser implements Parsable<Expression> {

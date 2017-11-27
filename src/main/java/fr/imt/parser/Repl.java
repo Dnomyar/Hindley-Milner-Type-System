@@ -1,6 +1,7 @@
 package fr.imt.parser;
 
 import fr.imt.logger.Color;
+
 import java.util.Scanner;
 
 public class Repl<T> {

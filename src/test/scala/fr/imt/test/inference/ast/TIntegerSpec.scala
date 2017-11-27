@@ -1,7 +1,7 @@
 package fr.imt.test.inference.ast
 
-import fr.imt.inference.ast.factory.ExpressionFactory.Int
 import fr.imt.inference.`type`.IntegerType
+import fr.imt.inference.ast.factory.ExpressionFactory.Int
 import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
