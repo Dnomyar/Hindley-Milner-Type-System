@@ -52,3 +52,21 @@ Contenu :
  
  - Début de l'implémentation : réflexion sur l'implémentation d'une expression et des types (représentation, patterns, ...)
  - Réflexion sur la grammaire du langage 
+
+## LOG Semaine nº44
+ 
+ - Implémentation d'une expression et des types
+ - Première version minimale d'un solveur
+
+## LOG Semaine nº45
+  
+ - Implémentation de tests unitaires
+
+## LOG Semaine nº46
+
+ - Travail sur la grammaire du langage
+
+## LOG Semaine nº47
+
+ - Implémentation d'un parseur, d'un REPL minimal, et branchement avec l'algorithme d'inférence
+ 
