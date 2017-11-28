@@ -27,13 +27,11 @@ public class Lambda implements Expression {
 
         TypeVariable resultType = new FreshVariable();
 
-        env.extend(this.identifier, new Scheme(resultType));
+        Environment localEnv = env.extend(this.identifier, new Scheme(resultType));
 
-        Type bodyType = this.body.infer(env, constraintCollection);
+        Type bodyType = this.body.infer(localEnv, constraintCollection);
 
         logger.debug(":t `" + this.body + "` => " + bodyType);
-
-        env.remove(this.identifier);
 
         return new ArrowType(resultType, bodyType);
     }

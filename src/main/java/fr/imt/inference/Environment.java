@@ -20,14 +20,13 @@ public class Environment implements FreeTypeVariableContainer {
         this.env = HashMap.empty();
     }
 
-    public void extend(Expression expression, Scheme scheme) {
-        logger.trace("Extend env: " + expression + " -> " + scheme);
-        this.env = this.env.put(expression, scheme);
+    private Environment(Map<Expression, Scheme> newEnv) {
+        this.env = newEnv;
     }
 
-    public void remove(Expression expression) {
-        logger.trace("Remove : " + expression + " linked to " + this.env.get(expression).get() + " from env.");
-        this.env = this.env.remove(expression);
+    public Environment extend(Expression expression, Scheme scheme) {
+        logger.trace("Extend env: " + expression + " -> " + scheme);
+        return new Environment(this.env.put(expression, scheme));
     }
 
     public Type get(Variable variable) {
