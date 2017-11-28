@@ -29,13 +29,11 @@ public class Let implements Expression {
 
         Scheme generalizedType = definitionType.generalize(env);
 
-        env.extend(this.identifier, generalizedType);
+        final Environment localEnv = env.extend(this.identifier, generalizedType);
 
-        Type bodyType = this.body.infer(env, constraintCollection);
+        Type bodyType = this.body.infer(localEnv, constraintCollection);
 
         logger.debug(":t body `" + this.body + "` => " + bodyType);
-
-        env.remove(this.identifier);
 
         return bodyType;
     }

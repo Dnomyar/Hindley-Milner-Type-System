@@ -38,4 +38,9 @@ public class TypeCollection implements FreeTypeVariableContainer {
     public Set<TypeVariable> getFreeTypeVariables() {
         return types.toSet().flatMap(FreeTypeVariableContainer::getFreeTypeVariables);
     }
+
+    @Override
+    public String toString() {
+        return "TypeCollection(" + types + ')';
+    }
 }

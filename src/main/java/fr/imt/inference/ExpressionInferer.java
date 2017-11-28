@@ -15,6 +15,8 @@ public class ExpressionInferer implements Inferable<Expression, Type> {
     public Either<String, Type> infer(Expression expression) {
         ConstraintCollection constraintCollection = new ConstraintCollection();
 
+        FreshVariable.reset(); // FIXME
+
         try {
             Type rawReturnType = expression.infer(new Environment(), constraintCollection);
 
@@ -22,9 +24,9 @@ public class ExpressionInferer implements Inferable<Expression, Type> {
 
             if (rawReturnType instanceof TypeVariable) {
                 return Either.right(result.getOrElse((TypeVariable) rawReturnType, (TypeVariable) rawReturnType));
-            } else {
-                return Either.right(rawReturnType);
             }
+
+            return Either.right(rawReturnType);
         } catch (
             UnificationMismatchException |
             UnificationFailureException |

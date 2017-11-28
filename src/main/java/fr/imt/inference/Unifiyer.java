@@ -39,7 +39,7 @@ public class Unifiyer {
 
         //logger.debug("Unifying constraint  : " + constraint);
 
-        if (constraint.right.equals(constraint.left)) { // TODO implement equals
+        if (constraint.right.equals(constraint.left)) {
             return new SubstitutionCollection();
         }
 
