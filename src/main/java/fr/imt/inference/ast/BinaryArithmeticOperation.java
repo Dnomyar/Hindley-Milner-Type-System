@@ -5,13 +5,13 @@ import fr.imt.inference.Environment;
 import fr.imt.inference.type.IntegerType;
 import fr.imt.inference.type.Type;
 
-public class ArithmeticOperation implements Expression {
+public class BinaryArithmeticOperation implements Expression {
 
     public final Expression left;
     public final Expression right;
     public final Operator operator;
 
-    public ArithmeticOperation(Expression left, Expression right, Operator operator) {
+    public BinaryArithmeticOperation(Expression left, Expression right, Operator operator) {
         this.left = left;
         this.right = right;
         this.operator = operator;
@@ -30,10 +30,10 @@ public class ArithmeticOperation implements Expression {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof ArithmeticOperation
-            && ((ArithmeticOperation) o).right.equals(this.right)
-            && ((ArithmeticOperation) o).left.equals(this.left)
-            && ((ArithmeticOperation) o).operator.equals(this.operator);
+        return o instanceof BinaryArithmeticOperation
+            && ((BinaryArithmeticOperation) o).right.equals(this.right)
+            && ((BinaryArithmeticOperation) o).left.equals(this.left)
+            && ((BinaryArithmeticOperation) o).operator.equals(this.operator);
     }
 
     @Override

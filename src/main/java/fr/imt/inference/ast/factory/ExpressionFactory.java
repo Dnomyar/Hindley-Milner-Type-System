@@ -28,8 +28,8 @@ public class ExpressionFactory {
         return new Let(identifier, definition, body);
     }
 
-    public static ArithmeticOperation Ope(Expression left, Expression right, Operator operator) {
-        return new ArithmeticOperation(left, right, operator);
+    public static BinaryArithmeticOperation Ope(Expression left, Expression right, Operator operator) {
+        return new BinaryArithmeticOperation(left, right, operator);
     }
 
     public static TBoolean Bool(Boolean value) {
