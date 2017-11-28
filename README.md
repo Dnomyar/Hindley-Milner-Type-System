@@ -69,7 +69,7 @@ let f = (\x -> x) in (app (app (\a b -> b) (app f True)) (app f 1))
                 f True => Application
                     f => Identifier
                     True => BoolLiteral
-                
+               
         (app f 1) => Expression
             app f 1 => Application
                 f => Identifier
