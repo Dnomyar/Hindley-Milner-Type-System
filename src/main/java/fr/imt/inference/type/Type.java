@@ -3,8 +3,7 @@ package fr.imt.inference.type;
 import fr.imt.inference.Environment;
 import fr.imt.inference.FreeTypeVariableContainer;
 import fr.imt.inference.Substituable;
-import fr.imt.inference.logger.Logger;
-import io.vavr.collection.Set;
+import fr.imt.logger.Logger;
 
 
 /**

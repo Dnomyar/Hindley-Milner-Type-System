@@ -1,7 +1,8 @@
-package fr.imt.inference.test.ast
+package fr.imt.test.inference.ast
 
-import fr.imt.inference.ast.factory.ExpressionFactory.{Bool, Int, Lamb, Var}
 import fr.imt.inference.`type`.ArrowType
+import fr.imt.inference.ast.factory.ExpressionFactory.{Bool, Int, Lamb, Var}
+import fr.imt.inference.errors.NonexistentVariableException
 import fr.imt.inference.{ConstraintCollection, Environment}
 import org.scalatest.{Matchers, WordSpec}
 
@@ -23,7 +24,7 @@ class LambdaSpec extends WordSpec with Matchers {
       val identifier = Var("x")
 
       Lamb(identifier, Int(3)).infer(environment, new ConstraintCollection) shouldBe a[ArrowType]
-      an[NoSuchElementException] should be thrownBy environment.get(identifier)
+      an[NonexistentVariableException] should be thrownBy environment.get(identifier)
     }
   }
 

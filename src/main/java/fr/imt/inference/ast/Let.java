@@ -2,9 +2,9 @@ package fr.imt.inference.ast;
 
 import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
-import fr.imt.inference.logger.Logger;
 import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
+import fr.imt.logger.Logger;
 
 public class Let implements Expression {
     public final Variable identifier;

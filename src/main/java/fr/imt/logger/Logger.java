@@ -1,4 +1,4 @@
-package fr.imt.inference.logger;
+package fr.imt.logger;
 
 import io.vavr.collection.List;
 
