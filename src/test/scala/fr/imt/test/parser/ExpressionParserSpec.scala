@@ -1,6 +1,7 @@
 package fr.imt.test.parser
 
-import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Var}
+import fr.imt.inference.ast.Operator
+import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Let, Ope, Var}
 import fr.imt.parser.ExpressionParser
 import org.scalatest.{BeforeAndAfter, Matchers, WordSpec}
 
@@ -17,6 +18,20 @@ class ExpressionParserSpec extends WordSpec with Matchers with BeforeAndAfter {
     "parse an integer literal" in {
       val res = new ExpressionParser().parse("25")
       val expected = Int(25)
+
+      res.get() should equal (expected)
+    }
+
+    "parse a binary arithmetic operation" in {
+      val res = new ExpressionParser().parse("op 4 + 6")
+      val expected = Ope(Int(4), Int(6), Operator.PLUS)
+
+      res.get() should equal (expected)
+    }
+
+    "parse a complex binary arithmetic operation" in {
+      val res = new ExpressionParser().parse("op (op 4 + 6) * 3")
+      val expected = Ope(Ope(Int(4), Int(6), Operator.PLUS), Int(3), Operator.TIME)
 
       res.get() should equal (expected)
     }
