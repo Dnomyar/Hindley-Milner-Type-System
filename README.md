@@ -13,20 +13,26 @@ L'ensemble des logs des différentes sessions et réunions est disponible [ici](
 Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un grammaire BNF qui représente le langage pour lequel nous validons le type.
 
 ```
-<Program> ::= 
-    <Expression> | '(' <Expression> ')'
-    
-<Expression> ::= 
-    <Application> | <Lambda> | <Let> | <Literal>
-    
+<BasicExpression> ::=
+    <Identifier> | <Literal> | <Application> | <Lambda> | <Let> | <ArithmeticOperation>
+
+<Expression> ::=
+    <BasicExpression> | '(' <BasicExpression> ')'
+
+<Operator> ::=
+    '+' | '-' | '*' | '/'
+
+<ArithmeticOperation> ::=
+    'op' <Expression> <Operator> <Expression>
+
 <Application> ::= 
-    (<Program> | <Identifier>) <Program>
+    'app' <Expression> <Expression>
     
 <Lambda> ::= 
-    '\' (<Identifier>)+ '->' <Program>
+    '\' (<Identifier>)+ '->' <Expression>
     
 <Let> ::= 
-    'let' <Identifier> '=' <Program> 'in' <Program>
+    'let' <Identifier> '=' <Expression> 'in' <Expression>
     
 <Literal> ::= 
     <BoolLiteral> | <IntLiteral> 
@@ -41,31 +47,31 @@ Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un gramm
     ('a'..'z' | 'A'..'Z' | '_')('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
 ``` 
 
-Here are some example of expression that can be parsed :
+Here is an example of an expression that can be parsed :
 ```
-let f = (\x -> x) in (\a b -> b) (f True) (f 1)
+let f = (\x -> x) in (app (app (\a b -> b) (app f True)) (app f 1))
 
     f => Identifier
     
-    (\x -> x) => Program
+    (\x -> x) => Expression
         \x -> x => Lambda
             x => Identifier
             x => Identifier
             
-    (\a b -> b) (f True) (f 1) => Application
-        (\a b -> b) (f True) => Application
-            (\a b -> b) => Program
+    app (app (\a b -> b) (app f True)) (app f 1) => Application
+        app (\a b -> b) (app f True) => Application
+            (\a b -> b) => Expression
                 \a b -> b => Lambda
                     a => Identifier
                     b => Identifier
                     b => Identifier
-            (f True) => Program
+            (app f True) => Expression
                 f True => Application
                     f => Identifier
                     True => BoolLiteral
                 
-        (f 1) => Program
-            f 1 => Application
+        (app f 1) => Expression
+            app f 1 => Application
                 f => Identifier
                 1 => IntLiteral
         
