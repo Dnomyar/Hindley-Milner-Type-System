@@ -30,6 +30,13 @@ class ValidationSpec extends WordSpec with Matchers with BeforeAndAfter {
       result.getLeft should be (exceptionMessage)
     }
 
+    "throws an UnificationFailureException for the expression `cond True == 6`" in {
+      val result = new ExpressionInferer().infer(new ExpressionParser().parse("cond True == 6").get())
+      val exceptionMessage = "UnificationFailureException : Cannot unify type `Bool` with type `Int`"
+
+      result.getLeft should be (exceptionMessage)
+    }
+
     "give the type `a -> a` for the expression `\\f -> (app (\\l -> l) f)`" in {
       val result = new ExpressionInferer().infer(new ExpressionParser().parse("\\f -> (app (\\l -> l) f)").get())
       val arrowType = result.get().asInstanceOf[ArrowType]
