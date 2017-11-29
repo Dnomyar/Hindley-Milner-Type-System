@@ -29,7 +29,7 @@ public class Let implements Expression {
 
         Scheme generalizedType = definitionType.generalize(env);
 
-        final Environment localEnv = env.extend(this.identifier, generalizedType);
+        Environment localEnv = env.extend(this.identifier, generalizedType);
 
         Type bodyType = this.body.infer(localEnv, constraintCollection);
 
