@@ -6,7 +6,6 @@ import fr.imt.inference.errors.NonexistentVariableException;
 import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.type.Type;
-import fr.imt.inference.type.TypeVariable;
 import fr.imt.logger.Logger;
 import io.vavr.control.Either;
 

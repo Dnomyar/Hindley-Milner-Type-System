@@ -15,10 +15,6 @@ public enum EqualityOperator {
         return List.of(EQUALS);
     }
 
-    public Character toChar() {
-        return operator.charAt(0);
-    }
-
     @Override
     public String toString() {
         return operator;

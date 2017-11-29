@@ -34,12 +34,6 @@ public class If implements Expression {
         return thenExpressionInferred;
     }
 
-
-    @Override
-    public String toString() {
-        return "(if " + condition + " then " + thenExpression + " else " + elseExpression + ")";
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,5 +53,10 @@ public class If implements Expression {
         result = 31 * result + (thenExpression != null ? thenExpression.hashCode() : 0);
         result = 31 * result + (elseExpression != null ? elseExpression.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "(if " + condition + " then " + thenExpression + " else " + elseExpression + ")";
     }
 }

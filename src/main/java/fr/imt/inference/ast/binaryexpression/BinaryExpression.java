@@ -13,7 +13,6 @@ public abstract class BinaryExpression implements Expression {
 
     abstract public Expression left();
     abstract public Expression right();
-
     abstract protected Type returnType();
 
     @Override

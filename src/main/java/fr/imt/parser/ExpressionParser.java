@@ -1,10 +1,10 @@
 package fr.imt.parser;
 
 import fr.imt.inference.ast.*;
+import fr.imt.inference.ast.binaryexpression.ArithmeticOperation;
 import fr.imt.inference.ast.binaryexpression.BinaryExpression;
 import fr.imt.inference.ast.binaryexpression.Condition;
 import fr.imt.inference.ast.binaryexpression.operators.ArithmeticOperator;
-import fr.imt.inference.ast.binaryexpression.BinaryArithmeticOperation;
 import fr.imt.inference.ast.binaryexpression.operators.EqualityOperator;
 import io.vavr.control.Either;
 import org.javafp.data.IList;
@@ -69,7 +69,9 @@ public class ExpressionParser implements Parsable<Expression> {
      * + | - | * | /
      */
     private Parser<Character, ArithmeticOperator> arithmeticOperatorParser() {
-        return choice(IList.of(ArithmeticOperator.all().map(operator -> chr(operator.toChar()).bind(c -> retn(operator)))));
+        return choice(IList.of(ArithmeticOperator.all()
+                    .map(operator -> chr(operator.toChar())
+                        .bind(c -> retn(operator)))));
     }
 
     /**
@@ -77,14 +79,14 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, EqualityOperator> equalityOperatorParser() {
         return choice(IList.of(EqualityOperator.all()
-                .map(operator -> string(operator.toString())
+                    .map(operator -> string(operator.toString())
                         .bind(c -> retn(operator)))));
     }
 
     /**
      * op <exp> <ArithmeticOperator> <exp>
      */
-    private Parser<Character, BinaryArithmeticOperation> arithmeticOperationParser(Parser<Character, Expression> expression) {
+    private Parser<Character, ArithmeticOperation> arithmeticOperationParser(Parser<Character, Expression> expression) {
         return
             string("op").then(
                 space(
@@ -93,22 +95,22 @@ public class ExpressionParser implements Parsable<Expression> {
                             arithmeticOperatorParser().bind(operator ->
                                 space(
                                     expression.bind(right ->
-                                        retn(new BinaryArithmeticOperation(left, right, operator)))))))));
+                                        retn(new ArithmeticOperation(left, right, operator)))))))));
     }
 
     /**
-     * op <exp> <EqualityOperator> <exp>
+     * con <exp> <EqualityOperator> <exp>
      */
     private Parser<Character, Condition> conditionParser(Parser<Character, Expression> expression) {
         return
-                string("con").then(
+            string("con").then(
+                space(
+                    expression.bind(left ->
                         space(
-                                expression.bind(left ->
-                                        space(
-                                                equalityOperatorParser().bind(operator ->
-                                                        space(
-                                                                expression.bind(right ->
-                                                                        retn(new Condition(left, right, operator)))))))));
+                            equalityOperatorParser().bind(operator ->
+                                space(
+                                    expression.bind(right ->
+                                        retn(new Condition(left, right, operator)))))))));
     }
 
     /**
@@ -170,19 +172,18 @@ public class ExpressionParser implements Parsable<Expression> {
                                 retn(new Application(body, arg)))))));
     }
 
-
     /**
-     * app <exp> <exp>
+     * if <exp> <exp>
      */
     private Parser<Character, If> ifParser(Parser<Character, Expression> expression) {
         return
             string("if").then(
-                    space(conditionParser(expression).bind(condition ->
-                            space(string("then").then(space(
-                                            expression.bind(thenExpr ->
-                                                    space(string("else").then(space(
-                                                            expression.bind(elseExpr ->
-                                                                    retn(new If(condition, thenExpr, elseExpr)))))))))))));
+                space(conditionParser(expression).bind(condition ->
+                    space(string("then").then(space(
+                        expression.bind(thenExpr ->
+                            space(string("else").then(space(
+                                expression.bind(elseExpr ->
+                                    retn(new If(condition, thenExpr, elseExpr)))))))))))));
     }
 
     private Parser<Character, Expression> expressionParser() {
@@ -197,14 +198,13 @@ public class ExpressionParser implements Parsable<Expression> {
         Parser<Character, Application> app = attempt(appParser(expression));
         Parser<Character, If> ifExp = attempt(ifParser(expression));
 
-        Parser.Ref<Character, BinaryExpression> binaryExpressionRef = Parser.ref();
-        Parser<Character, BinaryArithmeticOperation> arithmeticOperation = attempt(arithmeticOperationParser(expression));
+        Parser<Character, ArithmeticOperation> arithmeticOperation = attempt(arithmeticOperationParser(expression));
         Parser<Character, Condition> condition = attempt(conditionParser(expression));
-        binaryExpressionRef.set(choice(arithmeticOperation, condition));
+        Parser<Character, BinaryExpression> binaryExpression = choice(arithmeticOperation, condition);
 
-        basicExpression.set(choice(binaryExpressionRef, ifExp, literal, lambda, let, app, variable));
+        basicExpression.set(choice(binaryExpression, ifExp, literal, lambda, let, app, variable));
 
-        // Build a addParentheses expression (i.e. expression with parentheses)
+        // Build a parenthesized expression (i.e. expression with parentheses)
         Parser<Character, Expression> parenthesizedExpression = addParentheses(basicExpression);
 
         // An expression is either a parenthesized or basic expression

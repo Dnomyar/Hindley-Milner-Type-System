@@ -1,7 +1,5 @@
 package fr.imt.inference.ast.binaryexpression;
 
-import fr.imt.inference.ConstraintCollection;
-import fr.imt.inference.Environment;
 import fr.imt.inference.ast.Expression;
 import fr.imt.inference.ast.binaryexpression.operators.EqualityOperator;
 import fr.imt.inference.type.BooleanType;
@@ -11,12 +9,6 @@ public class Condition extends BinaryExpression {
 
     private Expression left;
     private Expression right;
-
-    @Override
-    protected Type returnType() {
-        return new BooleanType();
-    }
-
     private EqualityOperator operator;
 
     public Condition(Expression left, Expression right, EqualityOperator operator) {
@@ -35,10 +27,9 @@ public class Condition extends BinaryExpression {
         return this.right;
     }
 
-
     @Override
-    public String toString() {
-        return "(" + this.left + " " + this.operator + " " + this.right + ")";
+    protected Type returnType() {
+        return new BooleanType();
     }
 
     @Override
@@ -59,5 +50,10 @@ public class Condition extends BinaryExpression {
         result = 31 * result + (right != null ? right.hashCode() : 0);
         result = 31 * result + (operator != null ? operator.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.left + " " + this.operator + " " + this.right + ")";
     }
 }
