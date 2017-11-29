@@ -3,7 +3,6 @@ package fr.imt.test.inference.ast
 import fr.imt.inference.`type`.IntegerType
 import fr.imt.inference.ast.Operator
 import fr.imt.inference.ast.factory.ExpressionFactory.{Bool, Int, Ope, Var}
-import fr.imt.inference.errors.UnificationFailureException
 import fr.imt.inference.{ConstraintCollection, Environment, Unifiyer}
 import org.scalatest.{Matchers, WordSpec}
 
@@ -27,16 +26,6 @@ class ArithmeticOperationSpec extends WordSpec with Matchers {
       val result = new Unifiyer().runSolve(constraintCollection)
 
       rawReturnType.applySubstitution(result) shouldBe an[IntegerType]
-    }
-
-    "infer but failed on the constraint substitution step" in {
-      val environment = new Environment
-      val constraintCollection = new ConstraintCollection
-
-      Ope(Bool(true), Int(3), Operator.MINUS).infer(environment, constraintCollection)
-      val exceptionMessage = "UnificationFailureException : Cannot unify type `Bool` with type `Int`"
-
-      the[UnificationFailureException] thrownBy new Unifiyer().runSolve(constraintCollection) should have message exceptionMessage
     }
   }
 
