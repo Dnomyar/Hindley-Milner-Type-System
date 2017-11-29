@@ -9,7 +9,6 @@ public interface TypeInstantiator {
      * that does not appear in the current typing environment.
      *
      * @param environment the typing environment
-     *
      * @return the T type
      */
     Type instantiate(Environment environment);

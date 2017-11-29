@@ -25,7 +25,6 @@ public interface Type extends Substituable<Type>, FreeTypeVariableContainer {
      * Convert a type T into a type S by closing overall free type variables in a type scheme.
      *
      * @param environment all the variables
-     *
      * @return a Schema containing all the free variables
      */
     Scheme generalize(Environment environment);
