@@ -27,11 +27,7 @@ public class ExpressionInferer implements Inferable<Expression, Type> {
 
             logger.debug("Constraints generated : " + constraintCollection);
 
-            if (rawReturnType instanceof TypeVariable) {
-                return Either.right(result.getOrElse((TypeVariable) rawReturnType, (TypeVariable) rawReturnType));
-            }
-
-            return Either.right(rawReturnType);
+            return Either.right(rawReturnType.applySubstitution(result));
         } catch (
             UnificationMismatchException |
             UnificationFailureException |
