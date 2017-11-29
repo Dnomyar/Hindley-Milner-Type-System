@@ -7,9 +7,12 @@ import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
+import fr.imt.logger.Logger;
 import io.vavr.control.Either;
 
 public class ExpressionInferer implements Inferable<Expression, Type> {
+
+    private Logger logger = new Logger();
 
     @Override
     public Either<String, Type> infer(Expression expression) {
@@ -21,6 +24,8 @@ public class ExpressionInferer implements Inferable<Expression, Type> {
             Type rawReturnType = expression.infer(new Environment(), constraintCollection);
 
             SubstitutionCollection result = new Unifiyer().runSolve(constraintCollection);
+
+            logger.debug("Constraints generated : " + constraintCollection);
 
             if (rawReturnType instanceof TypeVariable) {
                 return Either.right(result.getOrElse((TypeVariable) rawReturnType, (TypeVariable) rawReturnType));

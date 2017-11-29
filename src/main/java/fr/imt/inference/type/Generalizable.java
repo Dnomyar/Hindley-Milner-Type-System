@@ -13,8 +13,10 @@ public abstract class Generalizable implements Type {
     public Scheme generalize(Environment environment) {
         Set<TypeVariable> typeFTV = this.getFreeTypeVariables();
         Set<TypeVariable> envFTV = environment.getFreeTypeVariables();
-        logger.debug("Generalizing... | typeFTV => " + typeFTV + " // envFTV => " + envFTV);
+
         Set<TypeVariable> notEnvironmentBoundedTypeVariables = typeFTV.diff(envFTV);
+
+        logger.debug("Generalizing... | (typeFTV => " + typeFTV + ") \\ (envFTV => " + envFTV + ") ==> " + notEnvironmentBoundedTypeVariables);
 
         return new Scheme(notEnvironmentBoundedTypeVariables, this);
     }
