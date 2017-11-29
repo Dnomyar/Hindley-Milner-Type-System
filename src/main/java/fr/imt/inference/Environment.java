@@ -13,7 +13,7 @@ import io.vavr.collection.Set;
 
 public class Environment implements FreeTypeVariableContainer {
 
-    private Logger logger = new Logger();
+    private Logger logger = Logger.instance;
     private Map<Expression, Scheme> env;
 
     public Environment() {

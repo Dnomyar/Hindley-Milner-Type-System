@@ -6,22 +6,14 @@ import java.util.function.IntPredicate;
 
 public class Logger {
 
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
+    public static final Logger instance = new Logger();
 
-    private static final String ANSI_BLACK_BOLD_BRIGHT = "\033[1;90m";
-
+    private StringBuilder log = new StringBuilder();
     private String className;
 
-    public Logger() {
+    private Logger() {
         this.className = this.prettyClassName(new Exception().getStackTrace()[1].getClassName());
+        this.log = new StringBuilder();
     }
 
     private String prettyClassName(String className) {
@@ -41,15 +33,24 @@ public class Logger {
     private void printMessage(String level, String color, String message) {
         String spaces = List.range(0, 28 - this.className.length()).map(e -> " ").mkString("");
 
-        System.out.println(String.format("%s%5s%s %s[%s]%s %s %s", color, level, ANSI_RESET, ANSI_BLACK_BOLD_BRIGHT, this.className, ANSI_RESET, spaces, message));
+        log.append(String.format("%s%5s%s %s[%s]%s %s %s \n", color, level, Color.ANSI_RESET, Color.ANSI_BLACK_BOLD_BRIGHT, this.className, Color.ANSI_RESET, spaces, message));
     }
 
     public void debug(String msg) {
-        this.printMessage("DEBUG", ANSI_GREEN, msg);
+        this.printMessage("DEBUG", Color.ANSI_GREEN, msg);
     }
 
     public void trace(String msg) {
-        this.printMessage("TRACE", ANSI_BLUE, msg);
+        this.printMessage("TRACE", Color.ANSI_BLUE, msg);
+    }
+
+    public void reset() {
+        this.log = new StringBuilder();
+    }
+
+    @Override
+    public String toString() {
+        return log.toString();
     }
 
     private class ClassNameElement {

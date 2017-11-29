@@ -11,7 +11,7 @@ public class Let implements Expression {
     public final Expression definition;
     public final Expression body;
 
-    private final Logger logger = new Logger();
+    private final Logger logger = Logger.instance;
 
     public Let(Variable identifier, Expression definition, Expression body) {
         this.identifier = identifier;

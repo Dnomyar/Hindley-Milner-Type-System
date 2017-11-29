@@ -10,7 +10,7 @@ import fr.imt.logger.Logger;
 
 public class Unifiyer {
 
-    private Logger logger = new Logger();
+    private Logger logger = Logger.instance;
 
     public SubstitutionCollection runSolve(ConstraintCollection constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
         return solve(new SubstitutionCollection(), constraints);

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class ConstraintCollection implements Substituable<ConstraintCollection> {
 
-    private final Logger logger = new Logger();
+    private final Logger logger = Logger.instance;
 
     private Deque<Constraint> constraints = new LinkedList<>();
 
