@@ -2,8 +2,11 @@ package fr.imt.parser;
 
 import fr.imt.logger.Color;
 import fr.imt.logger.Logger;
+import io.vavr.API;
 
 import java.util.Scanner;
+
+import static io.vavr.API.*;
 
 public class Repl<T> {
 
@@ -27,28 +30,32 @@ public class Repl<T> {
             System.out.print("> ");
             String line = scanner.nextLine().trim();
 
-            // TODO: refactor by creating a command handler service
-            if (line.equals(":q")) {
-                break;
-            } else if (line.equals(":log")) {
-                this.showLog = !this.showLog;
-                System.out.println(Color.grey("Log " + (this.showLog ? "enabled" : "disabled")));
-            } else if (line.equals(":h")) {
-                showHelp();
-            } else {
-                process(line);
-            }
+            Match(line).of(
+                    Case($(":q"), o -> API.run(this::endProgram)),
+                    Case($(":log"), o -> API.run(this::toggleLog)),
+                    Case($(":h"), o -> API.run(this::showHelp)),
+                    Case($(), o -> API.run(() -> this.process(line)))
+            );
         }
 
+    }
+
+    private void endProgram() {
         System.out.println(Color.grey("Bye!"));
+        System.exit(0);
+    }
+
+    private void toggleLog() {
+        this.showLog = !this.showLog;
+        System.out.println(Color.grey("Log " + (this.showLog ? "enabled" : "disabled")));
     }
 
     private void process(String line) {
         String result = parser.parse(line)
-            .fold(
-                parseError -> Color.red("Parsing error : " + parseError),
-                processor::process
-            );
+                .fold(
+                        parseError -> Color.red("Parsing error : " + parseError),
+                        processor::process
+                );
 
         if (this.showLog) System.out.print(Logger.instance);
 

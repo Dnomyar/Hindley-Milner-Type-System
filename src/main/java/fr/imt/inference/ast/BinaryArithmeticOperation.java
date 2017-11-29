@@ -38,9 +38,9 @@ public class BinaryArithmeticOperation implements Expression {
     @Override
     public boolean equals(Object o) {
         return o instanceof BinaryArithmeticOperation
-            && ((BinaryArithmeticOperation) o).right.equals(this.right)
-            && ((BinaryArithmeticOperation) o).left.equals(this.left)
-            && ((BinaryArithmeticOperation) o).operator.equals(this.operator);
+                && ((BinaryArithmeticOperation) o).right.equals(this.right)
+                && ((BinaryArithmeticOperation) o).left.equals(this.left)
+                && ((BinaryArithmeticOperation) o).operator.equals(this.operator);
     }
 
     @Override

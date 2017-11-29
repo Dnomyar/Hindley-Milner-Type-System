@@ -20,11 +20,11 @@ public class ExpressionParser implements Parsable<Expression> {
 
         try {
             return parser.bind(p -> eof.then(retn(p)))
-                .parse(Input.of(str))
-                .match(
-                    parsed -> Either.right(parsed.result),
-                    error -> Either.left(error.getMsg())
-                );
+                    .parse(Input.of(str))
+                    .match(
+                            parsed -> Either.right(parsed.result),
+                            error -> Either.left(error.getMsg())
+                    );
         } catch (Throwable e) {
             return Either.left("Cannot parse input");
         }
@@ -72,14 +72,14 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, BinaryArithmeticOperation> arithmeticOperationParser(Parser<Character, Expression> expression) {
         return
-            string("op").then(
-                space(
-                    expression.bind(left ->
+                string("op").then(
                         space(
-                            arithmeticOperatorParser().bind(operator ->
-                                space(
-                                    expression.bind(right ->
-                                        retn(new BinaryArithmeticOperation(left, right, operator)))))))));
+                                expression.bind(left ->
+                                        space(
+                                                arithmeticOperatorParser().bind(operator ->
+                                                        space(
+                                                                expression.bind(right ->
+                                                                        retn(new BinaryArithmeticOperation(left, right, operator)))))))));
     }
 
     /**
@@ -87,17 +87,17 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, Lambda> lambdaParser(Parser<Character, Expression> expression) {
         return
-            chr('\\').then(
-                space(
-                    variableParser().bind(id ->
-                        space(retn(id))
-                    ).many().bind(ids ->
+                chr('\\').then(
                         space(
-                            string("->").then(
-                                space(
-                                    expression.bind(body ->
+                                variableParser().bind(id ->
+                                        space(retn(id))
+                                ).many().bind(ids ->
                                         space(
-                                            retn(toLambda(ids, body))))))))));
+                                                string("->").then(
+                                                        space(
+                                                                expression.bind(body ->
+                                                                        space(
+                                                                                retn(toLambda(ids, body))))))))));
     }
 
     /**
@@ -114,18 +114,18 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, Let> letParser(Parser<Character, Expression> expression) {
         return
-            string("let").then(
-                space(
-                    variableParser().bind(id ->
+                string("let").then(
                         space(
-                            chr('=').then(
-                                space(
-                                    expression.bind(def ->
+                                variableParser().bind(id ->
                                         space(
-                                            string("in").then(
-                                                space(
-                                                    expression.bind(body ->
-                                                        retn(new Let(id, def, body)))))))))))));
+                                                chr('=').then(
+                                                        space(
+                                                                expression.bind(def ->
+                                                                        space(
+                                                                                string("in").then(
+                                                                                        space(
+                                                                                                expression.bind(body ->
+                                                                                                        retn(new Let(id, def, body)))))))))))));
     }
 
     /**
@@ -133,12 +133,12 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, Application> appParser(Parser<Character, Expression> expression) {
         return
-            string("app").then(
-                space(
-                    expression.bind(body ->
+                string("app").then(
                         space(
-                            expression.bind(arg ->
-                                retn(new Application(body, arg)))))));
+                                expression.bind(body ->
+                                        space(
+                                                expression.bind(arg ->
+                                                        retn(new Application(body, arg)))))));
     }
 
     private Parser<Character, Expression> expressionParser() {
@@ -165,12 +165,12 @@ public class ExpressionParser implements Parsable<Expression> {
 
     private <T> Parser<Character, T> addParentheses(Parser<Character, T> expression) {
         return
-            chr('(').then(
-                space(
-                    expression.bind(exp ->
+                chr('(').then(
                         space(
-                            chr(')').then(
-                                retn(exp))))));
+                                expression.bind(exp ->
+                                        space(
+                                                chr(')').then(
+                                                        retn(exp))))));
     }
 
     private <T> Parser<Character, T> space(Parser<Character, T> parser) {
