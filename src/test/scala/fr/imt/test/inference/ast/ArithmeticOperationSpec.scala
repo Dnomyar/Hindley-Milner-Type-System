@@ -3,7 +3,8 @@ package fr.imt.test.inference.ast
 import fr.imt.inference.`type`.IntegerType
 import fr.imt.inference.ast.Operator
 import fr.imt.inference.ast.factory.ExpressionFactory.{Bool, Int, Ope, Var}
-import fr.imt.inference.{ConstraintCollection, Environment}
+import fr.imt.inference.errors.UnificationFailureException
+import fr.imt.inference.{ConstraintCollection, Environment, Unifiyer}
 import org.scalatest.{Matchers, WordSpec}
 
 class ArithmeticOperationSpec extends WordSpec with Matchers {
@@ -20,10 +21,22 @@ class ArithmeticOperationSpec extends WordSpec with Matchers {
 
     "infer and return an IntegerType" in {
       val environment = new Environment
+      val constraintCollection = new ConstraintCollection
 
-      Ope(Int(2), Int(3), Operator.TIME).infer(environment, new ConstraintCollection) shouldBe an[IntegerType]
-      // Note: Infer but will failed on the constraint substitution step
-      Ope(Bool(true), Bool(false), Operator.MINUS).infer(environment, new ConstraintCollection) shouldBe an[IntegerType]
+      val rawReturnType = Ope(Int(2), Int(3), Operator.TIME).infer(environment, constraintCollection)
+      val result = new Unifiyer().runSolve(constraintCollection)
+
+      rawReturnType.applySubstitution(result) shouldBe an[IntegerType]
+    }
+
+    "infer but failed on the constraint substitution step" in {
+      val environment = new Environment
+      val constraintCollection = new ConstraintCollection
+
+      Ope(Bool(true), Int(3), Operator.MINUS).infer(environment, constraintCollection)
+      val exceptionMessage = "UnificationFailureException : Cannot unify type `Bool` with type `Int`"
+
+      the[UnificationFailureException] thrownBy new Unifiyer().runSolve(constraintCollection) should have message exceptionMessage
     }
   }
 
