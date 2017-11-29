@@ -77,3 +77,11 @@ let f = (\x -> x) in (app (app (\a b -> b) (app f True)) (app f 1))
         
     
 ```
+
+## REPL
+
+### Commandes
+
+- Pour quitter `:q`
+- Pour afficher l'aide `:h`
+- Pour activer/désactiver les informations des étapes d'inférence et d'unification `:log`

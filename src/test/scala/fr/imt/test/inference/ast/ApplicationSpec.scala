@@ -1,8 +1,8 @@
 package fr.imt.test.inference.ast
 
+import fr.imt.inference._
 import fr.imt.inference.`type`.{ArrowType, BooleanType, IntegerType, TypeVariable}
 import fr.imt.inference.ast.factory.ExpressionFactory.{App, Bool, Int, Lamb, Var}
-import fr.imt.inference.{Constraint, ConstraintCollection, Environment, FreshVariable}
 import org.scalatest.{BeforeAndAfter, Matchers, WordSpec}
 
 class ApplicationSpec extends WordSpec with Matchers with BeforeAndAfter {
@@ -25,9 +25,6 @@ class ApplicationSpec extends WordSpec with Matchers with BeforeAndAfter {
     "infer and return a TypeVariable" in {
       val constraintCollection = new ConstraintCollection
 
-      // Unifiyer will failed with this expression
-      // App(Int(6), Bool(true)).infer(environment, constraintCollection) shouldBe a [TypeVariable]
-
       App(Lamb(Var("x"), Int(6)), Bool(true)).infer(new Environment, constraintCollection) shouldBe a[TypeVariable]
 
       FreshVariable.reset()
@@ -40,8 +37,6 @@ class ApplicationSpec extends WordSpec with Matchers with BeforeAndAfter {
 
       actual should equal(expected)
     }
-
-
 
   }
 

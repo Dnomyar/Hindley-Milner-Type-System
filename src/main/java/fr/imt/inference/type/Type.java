@@ -13,7 +13,7 @@ import fr.imt.logger.Logger;
  * - type variable
  */
 public interface Type extends Substituable<Type>, FreeTypeVariableContainer {
-    Logger logger = new Logger();
+    Logger logger = Logger.instance;
 
     boolean isTypeVariable();
 

@@ -32,7 +32,6 @@ class ConditionSpec extends WordSpec with Matchers with BeforeAndAfter {
       Con(Bool(false), Var("a"), EqualityOperator.EQUALS).infer(environment, new ConstraintCollection) shouldBe an[BooleanType]
     }
 
-
     "infer and generate right constraints" in {
       val environment = new Environment
 

@@ -11,7 +11,7 @@ import io.vavr.control.Either;
 
 public class ExpressionInferer implements Inferable<Expression, Type> {
 
-    private Logger logger = new Logger();
+    private Logger logger = Logger.instance;
 
     @Override
     public Either<String, Type> infer(Expression expression) {
