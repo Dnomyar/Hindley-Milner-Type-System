@@ -173,17 +173,22 @@ public class ExpressionParser implements Parsable<Expression> {
     }
 
     /**
-     * if <exp> <exp>
+     * if <con> then <exp> else <exp>
      */
     private Parser<Character, If> ifParser(Parser<Character, Expression> expression) {
         return
             string("if").then(
-                space(conditionParser(expression).bind(condition ->
-                    space(string("then").then(space(
-                        expression.bind(thenExpr ->
-                            space(string("else").then(space(
-                                expression.bind(elseExpr ->
-                                    retn(new If(condition, thenExpr, elseExpr)))))))))))));
+                space(
+                    conditionParser(expression).bind(condition ->
+                        space(
+                            string("then").then(
+                                space(
+                                    expression.bind(thenExpr ->
+                                        space(
+                                            string("else").then(
+                                                space(
+                                                    expression.bind(elseExpr ->
+                                                        retn(new If(condition, thenExpr, elseExpr)))))))))))));
     }
 
     private Parser<Character, Expression> expressionParser() {

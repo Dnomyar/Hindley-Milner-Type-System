@@ -1,8 +1,13 @@
 # Sensibilisation à la recherche
 
-Groupe: Anaël CHARDAN / Clément GARBAY / Damien RAYMOND
+Ce projet est une implémentation de l'algorithme de Hindley Milner en Java.
+Ce travail se base sur une analyse du chapitre 7 "Hindley-Milner Inference" de [Write you a haskell](http://dev.stephendiehl.com/fun/006_hindley_milner.html).
 
-L'article de recherche concerné est [Write you a haskell](http://dev.stephendiehl.com/fun/006_hindley_milner.html)
+## Auteurs
+
+- Anaël CHARDAN
+- Clément GARBAY
+- Damien RAYMOND
 
 ## Logs
 
@@ -14,18 +19,30 @@ Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un gramm
 
 ```
 <BasicExpression> ::=
-    <Identifier> | <Literal> | <Application> | <Lambda> | <Let> | <ArithmeticOperation>
+    <Identifier> | <Literal> | <Application> | <Lambda> | <Let> | <BinaryExpression> | <If>
 
 <Expression> ::=
     <BasicExpression> | '(' <BasicExpression> ')'
 
-<Operator> ::=
+<ArithmeticOperator> ::=
     '+' | '-' | '*' | '/'
 
 <ArithmeticOperation> ::=
-    'op' <Expression> <Operator> <Expression>
+    'op' <Expression> <ArithmeticOperator> <Expression>
 
-<Application> ::= 
+<EqualityOperator> ::=
+    '=='
+
+<Condition> ::=
+    'con' <Expression> <EqualityOperator> <Expression>
+
+<BinaryExpression> ::=
+    <ArithmeticOperation> | <Condition>
+
+<If> ::=
+    'if' <Condition> 'then' <Expression> 'else' <Expression>
+
+<Application> ::=
     'app' <Expression> <Expression>
     
 <Lambda> ::= 
@@ -44,10 +61,10 @@ Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un gramm
     ('1'..'9')('0'..'9')+
     
 <Identifier> ::= 
-    ('a'..'z' | 'A'..'Z' | '_')('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
+    ('a'..'z' | 'A'..'Z')('a'..'z' | 'A'..'Z' | '0'..'9')*
 ``` 
 
-Here is an example of an expression that can be parsed :
+Voici un exemple d'expression qui peut être analysée :
 ```
 let f = (\x -> x) in (app (app (\a b -> b) (app f True)) (app f 1))
 

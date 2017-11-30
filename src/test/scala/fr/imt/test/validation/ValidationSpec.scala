@@ -21,6 +21,7 @@ class ValidationSpec extends WordSpec with Matchers with BeforeAndAfter {
       val arrowType = result.get().asInstanceOf[ArrowType]
 
       arrowType.left should be (arrowType.right)
+      arrowType.left shouldBe a [TypeVariable]
     }
 
     "throws an UnificationFailureException for the expression `app 6 True`" in {
@@ -63,16 +64,15 @@ class ValidationSpec extends WordSpec with Matchers with BeforeAndAfter {
       result.get should be (new ArrowType(new TypeVariable("t0"), new ArrowType(new IntegerType, new ArrowType(new IntegerType, new IntegerType))))
     }
 
-    "give the type `Int` for the expression `(\\n -> let fibo a b n = if(n == 2) then b else (app (app (app fibo b) (a + b)) (n - 1)) in app (app (app fibo 1) 1) n) 12444`" in {
-      val res =
-        new ExpressionParser()
-          .parse("(\\n -> let fibo a b n = if(n == 2) then b else (app (app (app fibo b) (a + b)) (n - 1)) in app (app (app fibo 1) 1) n) 12444")
+    "give the type `Int` for the expression `app (\\n -> let fibo = (\\a b n -> if con n == 2 then b else app (app (app fibo b) (op a + b)) (op n - 1)) in app (app (app fibo 1) 1) n) 12444`" in {
+      val result = new ExpressionInferer().infer(new ExpressionParser().parse(
+        "app (\\n -> let fibo = (\\a b n -> if con n == 2 then b else app (app (app fibo b) (op a + b)) (op n - 1)) in app (app (app fibo 1) 1) n) 12444"
+      ).get())
+      val exceptionMessage = "Variable `fibo` not found"
 
-//      val result = new ExpressionInferer().infer(res.get())
+      result.getLeft should be (exceptionMessage)
 
-      // SHOULD NOT WORK => recursive method
-
-      //result.get() shouldBe an[IntegerType]
+      // NOTE: for now, you could not infer recursive method ...
     }
   }
 
