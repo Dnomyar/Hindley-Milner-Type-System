@@ -7,11 +7,12 @@ import fr.imt.inference.errors.UnificationFailureException;
 import fr.imt.inference.errors.UnificationMismatchException;
 import fr.imt.inference.type.Type;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 import io.vavr.control.Either;
 
 public class ExpressionInferer implements Inferable<Expression, Type> {
 
-    private Logger logger = Logger.instance;
+    private Logger logger = LoggerFactory.getConsoleLogger();
 
     @Override
     public Either<String, Type> infer(Expression expression) {

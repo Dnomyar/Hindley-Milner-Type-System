@@ -8,13 +8,14 @@ import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 
 public class Lambda implements Expression {
 
     public final Variable identifier;
     public final Expression body;
 
-    private Logger logger = Logger.instance;
+    private Logger logger = LoggerFactory.getConsoleLogger();
 
     public Lambda(Variable identifier, Expression body) {
         this.identifier = identifier;

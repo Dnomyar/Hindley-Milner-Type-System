@@ -5,13 +5,14 @@ import fr.imt.inference.Environment;
 import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 
 public class Let implements Expression {
     public final Variable identifier;
     public final Expression definition;
     public final Expression body;
 
-    private final Logger logger = Logger.instance;
+    private final Logger logger = LoggerFactory.getConsoleLogger();
 
     public Let(Variable identifier, Expression definition, Expression body) {
         this.identifier = identifier;

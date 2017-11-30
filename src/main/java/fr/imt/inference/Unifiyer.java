@@ -7,10 +7,11 @@ import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 
 public class Unifiyer {
 
-    private Logger logger = Logger.instance;
+    private Logger logger = LoggerFactory.getConsoleLogger();
 
     public SubstitutionCollection runSolve(ConstraintCollection constraints) throws InfiniteTypeException, UnificationMismatchException, UnificationFailureException {
         return solve(new SubstitutionCollection(), constraints);

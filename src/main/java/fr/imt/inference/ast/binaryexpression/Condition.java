@@ -3,7 +3,10 @@ package fr.imt.inference.ast.binaryexpression;
 import fr.imt.inference.FreshVariable;
 import fr.imt.inference.ast.Expression;
 import fr.imt.inference.ast.binaryexpression.operators.EqualityOperator;
-import fr.imt.inference.type.*;
+import fr.imt.inference.type.ArrowType;
+import fr.imt.inference.type.BooleanType;
+import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
 
 public class Condition extends BinaryExpression {
 

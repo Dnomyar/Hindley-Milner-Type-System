@@ -4,7 +4,9 @@ import fr.imt.inference.ConstraintCollection;
 import fr.imt.inference.Environment;
 import fr.imt.inference.FreshVariable;
 import fr.imt.inference.ast.Expression;
-import fr.imt.inference.type.*;
+import fr.imt.inference.type.ArrowType;
+import fr.imt.inference.type.Type;
+import fr.imt.inference.type.TypeVariable;
 
 public abstract class BinaryExpression implements Expression {
 
