@@ -27,8 +27,14 @@ public class ExpressionParser implements Parsable<Expression> {
             return parser.bind(p -> eof.then(retn(p)))
                 .parse(Input.of(str))
                 .match(
-                    parsed -> Either.right(parsed.result),
-                    error -> Either.left(error.getMsg())
+                    parsed -> {
+                        Either<String, Expression> right = Either.right(parsed.result);
+                        return right;
+                    },
+                    error -> {
+                        Either<String, Expression> left = Either.left(error.getMsg());
+                        return left;
+                    }
                 );
         } catch (Throwable e) {
             return Either.left("Cannot parse input");

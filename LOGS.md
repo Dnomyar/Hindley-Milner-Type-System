@@ -70,3 +70,13 @@ Contenu :
 
  - Implémentation d'un parseur, d'un REPL minimal, et branchement avec l'algorithme d'inférence
  
+ 
+## LOG Semaine nº48
+
+ - Implémentation de la fonctionnalité "if then else"
+ - Ajout de commandes sur le REPL (afficher/cacher les logs, afficher l'aider, quitter)
+ - Amélioration du REPL 
+ - Correction de bugs
+ 
+Nous avons utilisé Github pour ce projet, voici le lien : https://github.com/anaelChardan/IMT-Recherche
+ 
