@@ -31,10 +31,10 @@ public class Repl<T> {
             String line = scanner.nextLine().trim();
 
             Match(line).of(
-                    Case($(":q"), o -> API.run(this::endProgram)),
-                    Case($(":log"), o -> API.run(this::toggleLog)),
-                    Case($(":h"), o -> API.run(this::showHelp)),
-                    Case($(), o -> API.run(() -> this.process(line)))
+                Case($(":q"), o -> API.run(this::endProgram)),
+                Case($(":log"), o -> API.run(this::toggleLog)),
+                Case($(":h"), o -> API.run(this::showHelp)),
+                Case($(), o -> API.run(() -> this.process(line)))
             );
         }
 
@@ -52,10 +52,10 @@ public class Repl<T> {
 
     private void process(String line) {
         String result = parser.parse(line)
-                .fold(
-                        parseError -> Color.red("Parsing error : " + parseError),
-                        processor::process
-                );
+            .fold(
+                parseError -> Color.red("Parsing error : " + parseError),
+                processor::process
+            );
 
         if (this.showLog) System.out.print(Logger.instance);
 

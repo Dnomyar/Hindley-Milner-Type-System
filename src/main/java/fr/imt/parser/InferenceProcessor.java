@@ -14,9 +14,9 @@ public class InferenceProcessor<T> implements ReplProcessable<T> {
     @Override
     public String process(T value) {
         return inferer.infer(value)
-                .fold(
-                        inferError -> Color.red("Inference error : " + inferError),
-                        Object::toString
-                );
+            .fold(
+                inferError -> Color.red("Inference error : " + inferError),
+                Object::toString
+            );
     }
 }

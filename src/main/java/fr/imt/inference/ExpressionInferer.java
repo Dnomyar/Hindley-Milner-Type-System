@@ -28,11 +28,11 @@ public class ExpressionInferer implements Inferable<Expression, Type> {
 
             return Either.right(rawReturnType.applySubstitution(result));
         } catch (
-                UnificationMismatchException |
-                        UnificationFailureException |
-                        InfiniteTypeException |
-                        NonexistentVariableException e
-                ) {
+            UnificationMismatchException |
+            UnificationFailureException |
+            InfiniteTypeException |
+            NonexistentVariableException e
+        ) {
             return Either.left(e.getMessage());
         }
 
