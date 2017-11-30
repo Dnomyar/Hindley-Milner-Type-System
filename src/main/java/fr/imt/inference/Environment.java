@@ -7,13 +7,14 @@ import fr.imt.inference.type.Scheme;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
 public class Environment implements FreeTypeVariableContainer {
 
-    private Logger logger = Logger.instance;
+    private Logger logger = LoggerFactory.getConsoleLogger();
     private Map<Expression, Scheme> env;
 
     public Environment() {

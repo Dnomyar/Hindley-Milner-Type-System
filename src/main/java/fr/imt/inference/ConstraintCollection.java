@@ -2,6 +2,9 @@ package fr.imt.inference;
 
 import fr.imt.inference.type.Type;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
+import io.vavr.collection.HashSet;
+import io.vavr.collection.Set;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class ConstraintCollection implements Substituable<ConstraintCollection> {
 
-    private final Logger logger = Logger.instance;
+    private final Logger logger = LoggerFactory.getConsoleLogger();
 
     private Deque<Constraint> constraints = new LinkedList<>();
 
@@ -40,6 +43,10 @@ public class ConstraintCollection implements Substituable<ConstraintCollection> 
 
     public Constraint head() {
         return constraints.getFirst();
+    }
+
+    public Set<Constraint> all(){
+        return HashSet.ofAll(constraints);
     }
 
     public ConstraintCollection tail() {

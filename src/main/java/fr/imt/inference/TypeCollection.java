@@ -5,7 +5,6 @@ import fr.imt.inference.type.TypeVariable;
 import io.vavr.collection.List;
 import io.vavr.collection.Set;
 
-// needs a iface ?
 public class TypeCollection implements FreeTypeVariableContainer {
 
     private List<Type> types;

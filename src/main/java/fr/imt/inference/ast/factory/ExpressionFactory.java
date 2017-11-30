@@ -1,6 +1,10 @@
 package fr.imt.inference.ast.factory;
 
 import fr.imt.inference.ast.*;
+import fr.imt.inference.ast.binaryexpression.ArithmeticOperation;
+import fr.imt.inference.ast.binaryexpression.Condition;
+import fr.imt.inference.ast.binaryexpression.operators.ArithmeticOperator;
+import fr.imt.inference.ast.binaryexpression.operators.EqualityOperator;
 
 public class ExpressionFactory {
 
@@ -28,8 +32,16 @@ public class ExpressionFactory {
         return new Let(identifier, definition, body);
     }
 
-    public static BinaryArithmeticOperation Ope(Expression left, Expression right, Operator operator) {
-        return new BinaryArithmeticOperation(left, right, operator);
+    public static ArithmeticOperation Ope(Expression left, Expression right, ArithmeticOperator operator) {
+        return new ArithmeticOperation(left, right, operator);
+    }
+
+    public static Condition Con(Expression left, Expression right, EqualityOperator operator) {
+        return new Condition(left, right, operator);
+    }
+
+    public static If If(Condition condition, Expression thenExpression, Expression elseExpression) {
+        return new If(condition, thenExpression, elseExpression);
     }
 
     public static TBoolean Bool(Boolean value) {

@@ -1,6 +1,7 @@
 package fr.imt;
 
 import fr.imt.inference.ExpressionInferer;
+import fr.imt.logger.LoggerFactory;
 import fr.imt.parser.ExpressionParser;
 import fr.imt.parser.InferenceProcessor;
 import fr.imt.parser.Repl;
@@ -11,7 +12,11 @@ import fr.imt.parser.Repl;
 public class Main {
 
     public static void main(String[] args) {
-        new Repl<>(new ExpressionParser(), new InferenceProcessor<>(new ExpressionInferer())).run();
+        new Repl<>(
+            new ExpressionParser(),
+            new InferenceProcessor<>(new ExpressionInferer()),
+            LoggerFactory.getConsoleLogger()
+        ).run();
     }
 
 }

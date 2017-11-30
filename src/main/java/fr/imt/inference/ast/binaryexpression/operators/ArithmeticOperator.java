@@ -1,17 +1,17 @@
-package fr.imt.inference.ast;
+package fr.imt.inference.ast.binaryexpression.operators;
 
 import io.vavr.collection.List;
 
-public enum Operator {
+public enum ArithmeticOperator {
     PLUS("+"), MINUS("-"), TIME("*"), DIVIDE("/");
 
     public final String operator;
 
-    Operator(String operator) {
+    ArithmeticOperator(String operator) {
         this.operator = operator;
     }
 
-    public static List<Operator> all() {
+    public static List<ArithmeticOperator> all() {
         return List.of(PLUS, MINUS, TIME, DIVIDE);
     }
 

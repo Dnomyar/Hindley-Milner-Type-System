@@ -12,11 +12,13 @@ public class Repl<T> {
 
     private final Parsable<T> parser;
     private final ReplProcessable<T> processor;
+    private final Logger logger;
     private boolean showLog;
 
-    public Repl(Parsable<T> parser, ReplProcessable<T> processor) {
+    public Repl(Parsable<T> parser, ReplProcessable<T> processor, Logger logger) {
         this.parser = parser;
         this.processor = processor;
+        this.logger = logger;
         this.showLog = true;
     }
 
@@ -31,10 +33,10 @@ public class Repl<T> {
             String line = scanner.nextLine().trim();
 
             Match(line).of(
-                    Case($(":q"), o -> API.run(this::endProgram)),
-                    Case($(":log"), o -> API.run(this::toggleLog)),
-                    Case($(":h"), o -> API.run(this::showHelp)),
-                    Case($(), o -> API.run(() -> this.process(line)))
+                Case($(":q"), o -> API.run(this::endProgram)),
+                Case($(":log"), o -> API.run(this::toggleLog)),
+                Case($(":h"), o -> API.run(this::showHelp)),
+                Case($(), o -> API.run(() -> this.process(line)))
             );
         }
 
@@ -52,12 +54,16 @@ public class Repl<T> {
 
     private void process(String line) {
         String result = parser.parse(line)
-                .fold(
-                        parseError -> Color.red("Parsing error : " + parseError),
-                        processor::process
-                );
+            .fold(
+                parseError -> Color.red("Parsing error : " + parseError),
+                processor::process
+            );
 
-        if (this.showLog) System.out.print(Logger.instance);
+        if (this.showLog) {
+            System.out.print(this.logger);
+        }
+
+        this.logger.reset(); // reset the logger after each process
 
         System.out.println(Color.purple(result));
     }

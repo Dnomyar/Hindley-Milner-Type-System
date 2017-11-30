@@ -1,6 +1,8 @@
 package fr.imt.inference.type;
 
 import fr.imt.inference.Environment;
+import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 import io.vavr.collection.Set;
 
 /**
@@ -8,6 +10,8 @@ import io.vavr.collection.Set;
  * but it represents the way we can generalize from a type
  */
 public abstract class Generalizable implements Type {
+    
+    private final Logger logger = LoggerFactory.getConsoleLogger();
 
     @Override
     public Scheme generalize(Environment environment) {

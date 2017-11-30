@@ -1,6 +1,11 @@
 package fr.imt.parser;
 
 import fr.imt.inference.ast.*;
+import fr.imt.inference.ast.binaryexpression.ArithmeticOperation;
+import fr.imt.inference.ast.binaryexpression.BinaryExpression;
+import fr.imt.inference.ast.binaryexpression.Condition;
+import fr.imt.inference.ast.binaryexpression.operators.ArithmeticOperator;
+import fr.imt.inference.ast.binaryexpression.operators.EqualityOperator;
 import io.vavr.control.Either;
 import org.javafp.data.IList;
 import org.javafp.data.Unit;
@@ -20,11 +25,11 @@ public class ExpressionParser implements Parsable<Expression> {
 
         try {
             return parser.bind(p -> eof.then(retn(p)))
-                    .parse(Input.of(str))
-                    .match(
-                            parsed -> Either.right(parsed.result),
-                            error -> Either.left(error.getMsg())
-                    );
+                .parse(Input.of(str))
+                .match(
+                    parsed -> Either.right(parsed.result),
+                    error -> Either.left(error.getMsg())
+                );
         } catch (Throwable e) {
             return Either.left("Cannot parse input");
         }
@@ -63,23 +68,49 @@ public class ExpressionParser implements Parsable<Expression> {
     /**
      * + | - | * | /
      */
-    private Parser<Character, Operator> arithmeticOperatorParser() {
-        return choice(IList.of(Operator.all().map(operator -> chr(operator.toChar()).bind(c -> retn(operator)))));
+    private Parser<Character, ArithmeticOperator> arithmeticOperatorParser() {
+        return choice(IList.of(ArithmeticOperator.all()
+                    .map(operator -> chr(operator.toChar())
+                        .bind(c -> retn(operator)))));
     }
 
     /**
-     * op <exp> <Operator> <exp>
+     * ==
      */
-    private Parser<Character, BinaryArithmeticOperation> arithmeticOperationParser(Parser<Character, Expression> expression) {
+    private Parser<Character, EqualityOperator> equalityOperatorParser() {
+        return choice(IList.of(EqualityOperator.all()
+                    .map(operator -> string(operator.toString())
+                        .bind(c -> retn(operator)))));
+    }
+
+    /**
+     * op <exp> <ArithmeticOperator> <exp>
+     */
+    private Parser<Character, ArithmeticOperation> arithmeticOperationParser(Parser<Character, Expression> expression) {
         return
-                string("op").then(
+            string("op").then(
+                space(
+                    expression.bind(left ->
                         space(
-                                expression.bind(left ->
-                                        space(
-                                                arithmeticOperatorParser().bind(operator ->
-                                                        space(
-                                                                expression.bind(right ->
-                                                                        retn(new BinaryArithmeticOperation(left, right, operator)))))))));
+                            arithmeticOperatorParser().bind(operator ->
+                                space(
+                                    expression.bind(right ->
+                                        retn(new ArithmeticOperation(left, right, operator)))))))));
+    }
+
+    /**
+     * con <exp> <EqualityOperator> <exp>
+     */
+    private Parser<Character, Condition> conditionParser(Parser<Character, Expression> expression) {
+        return
+            string("con").then(
+                space(
+                    expression.bind(left ->
+                        space(
+                            equalityOperatorParser().bind(operator ->
+                                space(
+                                    expression.bind(right ->
+                                        retn(new Condition(left, right, operator)))))))));
     }
 
     /**
@@ -87,17 +118,17 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, Lambda> lambdaParser(Parser<Character, Expression> expression) {
         return
-                chr('\\').then(
+            chr('\\').then(
+                space(
+                    variableParser().bind(id ->
+                        space(retn(id))
+                    ).many().bind(ids ->
                         space(
-                                variableParser().bind(id ->
-                                        space(retn(id))
-                                ).many().bind(ids ->
+                            string("->").then(
+                                space(
+                                    expression.bind(body ->
                                         space(
-                                                string("->").then(
-                                                        space(
-                                                                expression.bind(body ->
-                                                                        space(
-                                                                                retn(toLambda(ids, body))))))))));
+                                            retn(toLambda(ids, body))))))))));
     }
 
     /**
@@ -114,18 +145,18 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, Let> letParser(Parser<Character, Expression> expression) {
         return
-                string("let").then(
+            string("let").then(
+                space(
+                    variableParser().bind(id ->
                         space(
-                                variableParser().bind(id ->
+                            chr('=').then(
+                                space(
+                                    expression.bind(def ->
                                         space(
-                                                chr('=').then(
-                                                        space(
-                                                                expression.bind(def ->
-                                                                        space(
-                                                                                string("in").then(
-                                                                                        space(
-                                                                                                expression.bind(body ->
-                                                                                                        retn(new Let(id, def, body)))))))))))));
+                                            string("in").then(
+                                                space(
+                                                    expression.bind(body ->
+                                                        retn(new Let(id, def, body)))))))))))));
     }
 
     /**
@@ -133,12 +164,31 @@ public class ExpressionParser implements Parsable<Expression> {
      */
     private Parser<Character, Application> appParser(Parser<Character, Expression> expression) {
         return
-                string("app").then(
+            string("app").then(
+                space(
+                    expression.bind(body ->
                         space(
-                                expression.bind(body ->
+                            expression.bind(arg ->
+                                retn(new Application(body, arg)))))));
+    }
+
+    /**
+     * if <con> then <exp> else <exp>
+     */
+    private Parser<Character, If> ifParser(Parser<Character, Expression> expression) {
+        return
+            string("if").then(
+                space(
+                    conditionParser(expression).bind(condition ->
+                        space(
+                            string("then").then(
+                                space(
+                                    expression.bind(thenExpr ->
                                         space(
-                                                expression.bind(arg ->
-                                                        retn(new Application(body, arg)))))));
+                                            string("else").then(
+                                                space(
+                                                    expression.bind(elseExpr ->
+                                                        retn(new If(condition, thenExpr, elseExpr)))))))))))));
     }
 
     private Parser<Character, Expression> expressionParser() {
@@ -148,13 +198,18 @@ public class ExpressionParser implements Parsable<Expression> {
         Parser.Ref<Character, Expression> basicExpression = Parser.ref();
         Parser<Character, Variable> variable = variableParser();
         Parser<Character, Literal> literal = literalParser();
-        Parser<Character, BinaryArithmeticOperation> arithmeticOperation = attempt(arithmeticOperationParser(expression));
         Parser<Character, Lambda> lambda = lambdaParser(expression);
         Parser<Character, Let> let = attempt(letParser(expression));
         Parser<Character, Application> app = attempt(appParser(expression));
-        basicExpression.set(choice(arithmeticOperation, literal, lambda, let, app, variable));
+        Parser<Character, If> ifExp = attempt(ifParser(expression));
 
-        // Build a addParentheses expression (i.e. expression with parentheses)
+        Parser<Character, ArithmeticOperation> arithmeticOperation = attempt(arithmeticOperationParser(expression));
+        Parser<Character, Condition> condition = attempt(conditionParser(expression));
+        Parser<Character, BinaryExpression> binaryExpression = choice(arithmeticOperation, condition);
+
+        basicExpression.set(choice(binaryExpression, ifExp, literal, lambda, let, app, variable));
+
+        // Build a parenthesized expression (i.e. expression with parentheses)
         Parser<Character, Expression> parenthesizedExpression = addParentheses(basicExpression);
 
         // An expression is either a parenthesized or basic expression
@@ -165,12 +220,12 @@ public class ExpressionParser implements Parsable<Expression> {
 
     private <T> Parser<Character, T> addParentheses(Parser<Character, T> expression) {
         return
-                chr('(').then(
+            chr('(').then(
+                space(
+                    expression.bind(exp ->
                         space(
-                                expression.bind(exp ->
-                                        space(
-                                                chr(')').then(
-                                                        retn(exp))))));
+                            chr(')').then(
+                                retn(exp))))));
     }
 
     private <T> Parser<Character, T> space(Parser<Character, T> parser) {

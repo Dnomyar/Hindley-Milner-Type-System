@@ -23,8 +23,8 @@ public class SubstitutionCollection implements Substituable<SubstitutionCollecti
 
     public SubstitutionCollection concat(SubstitutionCollection substitutions) {
         return new SubstitutionCollection(
-                substitutions.applySubstitution(this).substitutions
-                        .merge(this.substitutions));
+            substitutions.applySubstitution(this).substitutions.merge(this.substitutions)
+        );
     }
 
     public Type getOrElse(TypeVariable key, TypeVariable defaultValue) {
@@ -32,8 +32,10 @@ public class SubstitutionCollection implements Substituable<SubstitutionCollecti
     }
 
     @Override
-    public String toString() {
-        return substitutions.toString();
+    public SubstitutionCollection applySubstitution(SubstitutionCollection substitutions) {
+        Map<TypeVariable, Type> substituted = this.substitutions
+                .mapValues(type -> type.applySubstitution(substitutions));
+        return new SubstitutionCollection(substituted);
     }
 
     @Override
@@ -52,9 +54,7 @@ public class SubstitutionCollection implements Substituable<SubstitutionCollecti
     }
 
     @Override
-    public SubstitutionCollection applySubstitution(SubstitutionCollection substitutions) {
-        Map<TypeVariable, Type> substitued =
-                this.substitutions.mapValues(type -> type.applySubstitution(substitutions));
-        return new SubstitutionCollection(substitued);
+    public String toString() {
+        return substitutions.toString();
     }
 }

@@ -7,13 +7,14 @@ import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.Type;
 import fr.imt.inference.type.TypeVariable;
 import fr.imt.logger.Logger;
+import fr.imt.logger.LoggerFactory;
 
 public class Application implements Expression {
 
     public final Expression body;
     public final Expression argument;
 
-    private final Logger logger = Logger.instance;
+    private final Logger logger = LoggerFactory.getConsoleLogger();
 
     public Application(
             Expression body,
