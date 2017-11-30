@@ -10,6 +10,10 @@ Ce travail se base sur une analyse du chapitre 7 "Hindley-Milner Inference" de [
 - Clément GARBAY
 - Damien RAYMOND
 
+
+
+
+
 ## Logs
 
 L'ensemble des logs des différentes sessions et réunions est disponible [ici](https://github.com/anaelChardan/IMT-Recherche/blob/master/LOGS.md).
@@ -132,6 +136,8 @@ On peut retrouver un package `ast` qui lui va contenir tous les éléments qui c
 
 Ce package `type` contient tous les types qui vont pouvoir être inférés
 
+![class_diagram_type](./IMAGES/class_diagram_type.jpg)
+
  - ArrowType / BooleanType / Integer / Boolean / Literal / Variable
     - Ces types sont généralizable c'est-à-dire qu'ils peuvent être convertis en un autre type en fermant toutes les variables libres dans un schéma de type.
  - On retrouve aussi le Schema qui contient un type et les variables de type à partir de ses propriétés, il est capable d'instancier des nouvelles variables de types fraîches.
@@ -139,6 +145,7 @@ Ce package `type` contient tous les types qui vont pouvoir être inférés
 En dehors de ce package, on retrouve la résolution des contraintes afin de rendre le type trouvé.
 
  - Le type est trouvé grâce au processus d'unification, c'est à dire résoudre les contraintes en application les substitutions nécessaires.
+ 
 
 ### fr.imt.parser
 
