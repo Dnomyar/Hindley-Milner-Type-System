@@ -8,6 +8,13 @@ L'article de recherche concerné est [Write you a haskell](http://dev.stephendie
 
 L'ensemble des logs des différentes sessions et réunions est disponible [ici](https://github.com/anaelChardan/IMT-Recherche/blob/master/LOGS.md).
 
+## REPL
+
+### Commandes
+
+- Pour quitter `:q`
+- Pour afficher l'aide `:h`
+- Pour activer/désactiver les informations des étapes d'inférence et d'unification `:log`
 
 ## Grammaire
 Dans l'objectif de réaliser un parseur pour un REPL, nous avons créé un grammaire BNF qui représente le langage pour lequel nous validons le type.
@@ -78,10 +85,29 @@ let f = (\x -> x) in (app (app (\a b -> b) (app f True)) (app f 1))
     
 ```
 
-## REPL
+## Organisation
 
-### Commandes
+Le projet essaie de respecter au maximum le programme original écrit en Haskell.
 
-- Pour quitter `:q`
-- Pour afficher l'aide `:h`
-- Pour activer/désactiver les informations des étapes d'inférence et d'unification `:log`
+Nous avons donc dans l'organisation:
+
+Un package `inference` qui contient toute la logique de l'inférence de type.
+
+* Dans celui-ci, on peut retrouver un package `ast` qui lui va contenir tout les éléments qui composent une expression à savoir
+
+![inference](./IMAGES/inference.png)
+    - Application / Lambda / Let / Literal / Variable / **ArithmeticOperation / If**
+    - Ces éléments sont ceux qui sont inférables (retourne un type) et qui sont représentés [ici](https://github.com/sdiehl/write-you-a-haskell/blob/master/chapter7/poly_constraints/src/Infer.hs#L163) en Haskell
+* On retrouve également un package `type` qui contient tous les types qui vont pouvoir être inférés
+    - ArrowType / BooleanType / Integer / Boolean / Literal / Variable
+    - Ces types sont généralizable c'est à dire, Ils peuvent être convertie en un autre type en fermant toutes les variables libres dans un schéma de type.
+    - Dans ce package on retrouve aussi le Schema qui contient un type et les variables de type à partir de ses propriétés, il est capable d'instantier des nouvelles variables de types fraiche.
+* En dehors de ce package, on retrouve la résolution des contraintes afin de rendre le type trouvé.
+    - Le type est trouvé grâce au processus d'unification, c'est à dire résoudre les contraintes en application les subsitutions nécessaires.
+* De plus, nous avons intégré un parser en utilisant la bibliothèque [parsecj](https://github.com/jon-hanson/parsecj) et en définissant nos propres règles définies dans la grammaire ci-dessus.
+* Ce parser est utilisé dans un REPL afin de pouvoir tester des expressions très rapidement.
+* Nous avons également utilisé [Vavr](http://www.vavr.io/) qui permet d'avoir une écriture plus *fonctionnelle* sur les collections que ce qui est proposé de base par les streams de Java.
+
+Pour finir voici le flow d'exécution de notre algorithme. 
+
+![sequence](./IMAGES/sequence.jpg)
