@@ -2,6 +2,7 @@ package fr.imt.inference.ast.binaryexpression;
 
 import fr.imt.inference.ast.Expression;
 import fr.imt.inference.ast.binaryexpression.operators.ArithmeticOperator;
+import fr.imt.inference.type.ArrowType;
 import fr.imt.inference.type.IntegerType;
 import fr.imt.inference.type.Type;
 
@@ -28,8 +29,8 @@ public class ArithmeticOperation extends BinaryExpression {
     }
 
     @Override
-    protected Type returnType() {
-        return new IntegerType();
+    protected Type constraintType() {
+        return new ArrowType(new IntegerType(), new ArrowType(new IntegerType(), new IntegerType()));
     }
 
     @Override

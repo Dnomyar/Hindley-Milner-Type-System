@@ -1,9 +1,9 @@
 package fr.imt.inference.ast.binaryexpression;
 
+import fr.imt.inference.FreshVariable;
 import fr.imt.inference.ast.Expression;
 import fr.imt.inference.ast.binaryexpression.operators.EqualityOperator;
-import fr.imt.inference.type.BooleanType;
-import fr.imt.inference.type.Type;
+import fr.imt.inference.type.*;
 
 public class Condition extends BinaryExpression {
 
@@ -28,8 +28,9 @@ public class Condition extends BinaryExpression {
     }
 
     @Override
-    protected Type returnType() {
-        return new BooleanType();
+    protected Type constraintType() {
+        TypeVariable operatorType = new FreshVariable();
+        return  new ArrowType(operatorType, new ArrowType(operatorType, new BooleanType()));
     }
 
     @Override
