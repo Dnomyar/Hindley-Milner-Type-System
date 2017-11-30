@@ -1,6 +1,7 @@
 # Sensibilisation à la recherche
 
-Ce projet est une implémentation de l'algorithme de Hindley Milner en Java.
+Le projet est une implémentation de l'algorithme d'inférence de type de Hindley Milner en Java.
+
 Ce travail se base sur une analyse du chapitre 7 "Hindley-Milner Inference" de [Write you a haskell](http://dev.stephendiehl.com/fun/006_hindley_milner.html).
 
 ## Auteurs
@@ -104,27 +105,53 @@ let f = (\x -> x) in (app (app (\a b -> b) (app f True)) (app f 1))
 
 ## Organisation
 
-Le projet essaie de respecter au maximum le programme original écrit en Haskell.
+Nous avons donc dans l'organisation :
 
-Nous avons donc dans l'organisation:
+- fr.imt
+    - inference
+        - ast
+        - errors
+        - type
+    - logger
+    - parser
+
+### fr.imt.inference
 
 Un package `inference` qui contient toute la logique de l'inférence de type.
 
-* Dans celui-ci, on peut retrouver un package `ast` qui lui va contenir tout les éléments qui composent une expression à savoir
+#### fr.imt.inference.ast
+
+On peut retrouver un package `ast` qui lui va contenir tous les éléments qui composent une expression à savoir :
 
 ![inference](./IMAGES/inference.png)
-    - Application / Lambda / Let / Literal / Variable / **ArithmeticOperation / If**
-    - Ces éléments sont ceux qui sont inférables (retourne un type) et qui sont représentés [ici](https://github.com/sdiehl/write-you-a-haskell/blob/master/chapter7/poly_constraints/src/Infer.hs#L163) en Haskell
-* On retrouve également un package `type` qui contient tous les types qui vont pouvoir être inférés
-    - ArrowType / BooleanType / Integer / Boolean / Literal / Variable
-    - Ces types sont généralizable c'est à dire, Ils peuvent être convertie en un autre type en fermant toutes les variables libres dans un schéma de type.
-    - Dans ce package on retrouve aussi le Schema qui contient un type et les variables de type à partir de ses propriétés, il est capable d'instantier des nouvelles variables de types fraiche.
-* En dehors de ce package, on retrouve la résolution des contraintes afin de rendre le type trouvé.
-    - Le type est trouvé grâce au processus d'unification, c'est à dire résoudre les contraintes en application les subsitutions nécessaires.
-* De plus, nous avons intégré un parser en utilisant la bibliothèque [parsecj](https://github.com/jon-hanson/parsecj) et en définissant nos propres règles définies dans la grammaire ci-dessus.
-* Ce parser est utilisé dans un REPL afin de pouvoir tester des expressions très rapidement.
-* Nous avons également utilisé [Vavr](http://www.vavr.io/) qui permet d'avoir une écriture plus *fonctionnelle* sur les collections que ce qui est proposé de base par les streams de Java.
 
-Pour finir voici le flow d'exécution de notre algorithme. 
+ - Application / Lambda / Let / Literal / Variable / **BinaryExpression / If**
+    - Ces éléments sont inférables : retourne un type
+
+#### fr.imt.inference.type
+
+Ce package `type` contient tous les types qui vont pouvoir être inférés
+
+ - ArrowType / BooleanType / Integer / Boolean / Literal / Variable
+    - Ces types sont généralizable c'est-à-dire qu'ils peuvent être convertis en un autre type en fermant toutes les variables libres dans un schéma de type.
+ - On retrouve aussi le Schema qui contient un type et les variables de type à partir de ses propriétés, il est capable d'instancier des nouvelles variables de types fraîches.
+
+En dehors de ce package, on retrouve la résolution des contraintes afin de rendre le type trouvé.
+
+ - Le type est trouvé grâce au processus d'unification, c'est à dire résoudre les contraintes en application les substitutions nécessaires.
+
+### fr.imt.parser
+
+Un package `parser`, qui contient tout la logique d'analyse grammaticale. En effet, nous avons intégré un parser en utilisant la bibliothèque [parsecj](https://github.com/jon-hanson/parsecj) et en définissant nos propres règles définies dans la grammaire ci-dessus.
+
+Nous avons également implémenté un REPL qui utilise ce parser afin de pouvoir tester des expressions très rapidement et facilement.
+
+### Note
+
+Nous avons également utilisé [Vavr](http://www.vavr.io/) qui permet d'avoir une écriture plus *fonctionnelle* sur les collections que ce qui est proposé de base par les streams de Java.
+
+#### Flow d'exécution de notre algorithme
+
+Ce diagramme de séquence présente le flow d'exécution de notre algorithme :
 
 ![sequence](./IMAGES/sequence.jpg)
